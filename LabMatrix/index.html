@@ -1,0 +1,448 @@
+
+                        <!DOCTYPE html>
+                        <html lang="en">
+                        <head>
+                            <meta charset="UTF-8">
+                            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+							<style>
+								body {
+									background-color: white; /* Ensure the iframe has a white background */
+								}
+
+								
+							</style>
+                        </head>
+                        <body>
+                            <!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Micron Lab Support Capability Matrix</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+        [data-theme="dark"]{
+            --bg:#12151c;--sf:#1a1e28;--sf2:#222836;--sfh:#2a3040;
+            --bd:rgba(255,255,255,0.08);--bd2:rgba(255,255,255,0.14);
+            --tx:#e8ecf4;--tx2:#9aa5b8;--mu:#5e6a7d;
+            --shd:0 3px 16px rgba(0,0,0,0.3);
+            --hl:rgba(99,102,241,0.09);--ol:rgba(0,0,0,0.45);
+            --mapf:none;--tipbg:rgba(22,26,36,0.97)
+        }
+        [data-theme="light"]{
+            --bg:#f0f2f5;--sf:#ffffff;--sf2:#f5f6f8;--sfh:#ebedf2;
+            --bd:rgba(0,0,0,0.07);--bd2:rgba(0,0,0,0.13);
+            --tx:#1a1d24;--tx2:#5a6070;--mu:#8890a0;
+            --shd:0 3px 16px rgba(0,0,0,0.06);
+            --hl:rgba(99,102,241,0.06);--ol:rgba(0,0,0,0.28);
+            --mapf:invert(0.92) hue-rotate(180deg) saturate(0.5) brightness(1.1);
+            --tipbg:rgba(255,255,255,0.97)
+        }
+
+        *{margin:0;padding:0;box-sizing:border-box}
+
+        html{
+            /* Base scale 150% — everything is bigger by default */
+            font-size: 150%;
+        }
+
+        body{
+            font-family:'Inter',sans-serif;
+            background:var(--bg);
+            color:var(--tx);
+            transition:background .3s,color .3s;
+            /* Use rem everywhere so 150% base scales it all */
+            font-size:1rem;
+        }
+
+        /* ═══ HEADER ═══ */
+        .hdr{
+            display:flex;align-items:center;justify-content:space-between;
+            padding:0 1rem;height:2.8rem;
+            background:var(--sf);border-bottom:1px solid var(--bd);
+            position:sticky;top:0;z-index:200
+        }
+        .hdr-l{display:flex;align-items:center;gap:0.5rem}
+        .logo{width:1.6rem;height:1.6rem;background:linear-gradient(135deg,#7c3aed,#3b82f6);border-radius:0.4rem;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:0.65rem;color:#fff}
+        .hdr-l h1{font-size:0.8rem;font-weight:800}
+        .hdr-l>span{font-size:0.55rem;color:var(--tx2)}
+        .hdr-r{display:flex;align-items:center;gap:0.4rem}
+        .badge{font-size:0.5rem;color:var(--tx2);padding:0.15rem 0.5rem;background:var(--sf2);border:1px solid var(--bd);border-radius:100px}
+        .hbtn{font-size:0.5rem;font-weight:700;padding:0.2rem 0.6rem;border-radius:0.3rem;cursor:pointer;border:1px solid var(--bd2);background:var(--sf2);color:var(--tx2);transition:all .2s}
+        .hbtn:hover{background:var(--sfh);color:var(--tx)}
+        .tog{width:2rem;height:1.2rem;background:var(--sf2);border-radius:100px;border:1px solid var(--bd2);cursor:pointer;position:relative}
+        .tog .k{width:0.85rem;height:0.85rem;border-radius:50%;background:var(--tx);position:absolute;top:0.12rem;left:0.12rem;transition:transform .3s;display:flex;align-items:center;justify-content:center;font-size:0.5rem}
+        [data-theme="light"] .tog .k{transform:translateX(0.85rem)}
+
+        /* ═══ SCALE CONTROLS ═══ */
+        .scale-ctrl{display:flex;align-items:center;gap:0.2rem}
+        .scale-btn{width:1.4rem;height:1.4rem;border-radius:0.3rem;background:var(--sf2);border:1px solid var(--bd);color:var(--tx2);font-size:0.65rem;cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:700;transition:all .15s}
+        .scale-btn:hover{background:var(--sfh);color:var(--tx)}
+        .scale-label{font-size:0.5rem;color:var(--tx2);min-width:2rem;text-align:center}
+
+        /* ═══ LAYOUT ═══ */
+        .wrap{display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;padding:0.8rem 1rem;max-width:80rem;margin:0 auto}
+
+        /* LEFT */
+        .left{display:flex;flex-direction:column;gap:0.5rem}
+
+        .map-box{background:var(--sf);border:1px solid var(--bd);border-radius:0.6rem;overflow:hidden;position:relative}
+        .map-box img{width:100%;display:block;filter:var(--mapf);transition:filter .3s,transform .3s;transform-origin:center}
+        .map-box.zoomed img{cursor:grab}
+        .map-box .zoom-bar{position:absolute;bottom:0.4rem;right:0.4rem;display:flex;gap:0.15rem;z-index:15}
+        .map-box .zbtn{width:1.4rem;height:1.4rem;border-radius:0.3rem;background:var(--sf);border:1px solid var(--bd2);color:var(--tx2);font-size:0.65rem;cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:700;backdrop-filter:blur(6px)}
+        .map-box .zbtn:hover{background:var(--sfh);color:var(--tx)}
+
+        /* Pins */
+        .pin{position:absolute;transform:translate(-50%,-50%);cursor:pointer;z-index:10}
+        .pin:hover,.pin.act{z-index:20}
+        .pin-o{width:0.8rem;height:0.8rem;border-radius:50%;border:2px solid rgba(255,255,255,0.5);display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.2);transition:transform .2s;position:relative}
+        [data-theme="light"] .pin-o{border-color:rgba(0,0,0,0.25);background:rgba(255,255,255,0.35)}
+        .pin:hover .pin-o,.pin.act .pin-o{transform:scale(1.5)}
+        .pin-i{width:0.35rem;height:0.35rem;border-radius:50%}
+        .pin-d{display:flex;gap:1px}.pin-d span{width:0.28rem;height:0.28rem;border-radius:50%}
+        .pin-p{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:0.8rem;height:0.8rem;border-radius:50%;pointer-events:none;animation:pp 2.5s ease-out infinite}
+        @keyframes pp{0%{transform:translate(-50%,-50%) scale(1);opacity:.3}100%{transform:translate(-50%,-50%) scale(3);opacity:0}}
+
+        /* Pin tooltip */
+        .pin-tt{position:absolute;bottom:calc(100% + 0.4rem);left:50%;transform:translateX(-50%) translateY(3px);padding:0.35rem 0.55rem;border-radius:0.4rem;background:var(--tipbg);border:1px solid var(--bd2);box-shadow:0 4px 16px rgba(0,0,0,0.25);backdrop-filter:blur(10px);pointer-events:none;opacity:0;transition:opacity .12s,transform .12s;white-space:nowrap;z-index:30}
+        .pin:hover .pin-tt{opacity:1;transform:translateX(-50%) translateY(0)}
+        .ptt-h{display:flex;align-items:center;gap:0.25rem;margin-bottom:0.1rem}
+        .ptt-f{font-size:0.7rem}.ptt-n{font-size:0.6rem;font-weight:800}.ptt-l{font-size:0.45rem;color:var(--tx2)}
+        .ptt-ps{display:flex;gap:0.12rem;margin-top:0.2rem;flex-wrap:wrap}
+        .ptt-c{font-size:0.38rem;font-weight:600;padding:0.05rem 0.2rem;border-radius:0.15rem;background:rgba(99,102,241,0.1);color:var(--tx2)}
+
+        /* Legend */
+        .leg{display:flex;flex-wrap:wrap;gap:0.25rem}
+        .leg-i{display:flex;align-items:center;gap:0.3rem;padding:0.25rem 0.45rem;background:var(--sf);border:1px solid var(--bd);border-radius:0.3rem;cursor:pointer;transition:all .12s;font-size:0.55rem}
+        .leg-i:hover{background:var(--sfh);border-color:var(--bd2)}
+        .leg-i.act{background:var(--sfh);border-color:var(--bd2)}
+        .leg-d{width:0.38rem;height:0.38rem;border-radius:50%;flex-shrink:0}
+        .leg-n{font-weight:800}.leg-l{color:var(--tx2);font-size:0.45rem}
+
+        /* RIGHT */
+        .right{display:flex;flex-direction:column;gap:0.5rem}
+
+        .mx-card{background:var(--sf);border:1px solid var(--bd);border-radius:0.6rem;overflow:hidden}
+        .mx-hd{display:flex;align-items:center;justify-content:space-between;padding:0.45rem 0.7rem;border-bottom:1px solid var(--bd)}
+        .mx-tt{font-size:0.72rem;font-weight:800}
+        .mx-ht{font-size:0.5rem;color:var(--mu)}
+        .mx-bd{overflow-x:auto}.mx-bd::-webkit-scrollbar{height:3px}.mx-bd::-webkit-scrollbar-thumb{background:var(--bd2);border-radius:2px}
+
+        table.mx{width:100%;border-collapse:collapse}
+        .mx th,.mx td{padding:0;border:1px solid var(--bd);text-align:center}
+        .mx thead th{background:var(--sf2);padding:0.4rem 0.2rem;font-size:0.5rem;font-weight:700;color:var(--tx2);position:sticky;top:0;z-index:5}
+        .mx thead th:first-child{text-align:left;padding-left:0.7rem;min-width:5.5rem;font-size:0.45rem;text-transform:uppercase;letter-spacing:0.06rem;color:var(--mu)}
+        .ch{display:flex;flex-direction:column;align-items:center;gap:0.05rem}
+        .ch-f{font-size:0.6rem}.ch-n{font-size:0.65rem;font-weight:800}.ch-l{font-size:0.4rem;color:var(--mu);font-weight:500}
+        .mx tbody td:first-child{text-align:left;padding:0.45rem 0.7rem}
+        .pc{display:flex;align-items:center;gap:0.4rem}.pc .i{font-size:0.85rem}.pc .n{font-weight:700;font-size:0.65rem}
+
+        .cl{padding:0.3rem 0.15rem;cursor:pointer;transition:background .1s}
+        .cl:hover{background:var(--hl)}
+        .cl.act{background:var(--hl);outline:2px solid rgba(99,102,241,0.3);outline-offset:-2px}
+        .cl.em{cursor:default;opacity:.18}.cl.em:hover{background:transparent}
+        .cb{display:inline-flex;align-items:center;justify-content:center;width:1.5rem;height:1.5rem;border-radius:0.35rem;font-size:0.6rem;font-weight:800;transition:transform .1s}
+        .cl:hover .cb{transform:scale(1.08)}
+        .cch{font-size:0.4rem;color:var(--mu);margin-top:0.08rem;font-weight:600}
+
+        /* HOVER TOOLTIP — fixed, follows mouse */
+        #hoverTip{position:fixed;padding:0.55rem 0.7rem;border-radius:0.5rem;background:var(--tipbg);border:1px solid var(--bd2);box-shadow:0 8px 28px rgba(0,0,0,0.3);backdrop-filter:blur(14px);pointer-events:none;opacity:0;transition:opacity .12s;z-index:500;max-width:18rem;min-width:12rem;text-align:left}
+        #hoverTip.vis{opacity:1}
+        .ht-t{font-size:0.62rem;font-weight:800;margin-bottom:0.15rem;display:flex;align-items:center;gap:0.25rem}
+        .ht-r{font-size:0.42rem;color:var(--tx2);margin-bottom:0.3rem;padding-bottom:0.2rem;border-bottom:1px solid var(--bd)}
+        .ht-row{display:grid;grid-template-columns:auto 1fr auto;gap:0.06rem 0.3rem;font-size:0.48rem;padding:0.12rem 0;border-bottom:1px solid var(--bd)}
+        .ht-row:last-child{border-bottom:none}
+        .ht-s{display:flex;align-items:center;gap:0.15rem;font-weight:600;color:var(--tx2);white-space:nowrap}
+        .ht-d{width:0.3rem;height:0.3rem;border-radius:50%;flex-shrink:0}
+        .ht-d.efa{background:#3b82f6}.ht-d.pfa{background:#10b981}.ht-d.char{background:#f59e0b}
+        .ht-tm{color:var(--tx);font-weight:600}.ht-p{color:var(--mu);font-size:0.42rem;text-align:right}
+        .ht-tr{font-size:0.38rem;padding:0.05rem 0.2rem;border-radius:0.15rem;background:rgba(236,72,153,.1);color:#ec4899;font-weight:600;display:inline-block;margin-top:0.06rem}
+
+        /* DETAIL PANEL */
+        .dp{background:var(--sf);border:1px solid var(--bd);border-radius:0.6rem;overflow:hidden;display:none}
+        .dp.open{display:block}
+        .dp-hd{display:flex;align-items:center;gap:0.5rem;padding:0.6rem 0.8rem;border-bottom:1px solid var(--bd)}
+        .dp-ic{width:2rem;height:2rem;border-radius:0.5rem;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+        .dp-inf h2{font-size:0.78rem;font-weight:800}.dp-inf p{font-size:0.52rem;color:var(--tx2)}
+        .dp-x{margin-left:auto;width:1.4rem;height:1.4rem;border-radius:0.3rem;border:1px solid var(--bd);background:var(--sf2);color:var(--tx2);font-size:0.6rem;cursor:pointer;display:flex;align-items:center;justify-content:center}
+        .dp-x:hover{background:var(--sfh);color:var(--tx)}
+        .dp-bd{padding:0.6rem 0.8rem}
+        .dp-ft{padding:0.35rem 0.8rem;border-top:1px solid var(--bd);display:flex;gap:0.6rem;flex-wrap:wrap}
+        .li{display:flex;align-items:center;gap:0.2rem;font-size:0.42rem;color:var(--tx2)}.ld{width:0.3rem;height:0.3rem;border-radius:50%}
+        .dt{width:100%;border-collapse:collapse}
+        .dt th{text-align:left;font-size:0.42rem;font-weight:700;text-transform:uppercase;letter-spacing:0.04rem;color:var(--mu);padding:0.2rem 0.3rem 0.35rem;border-bottom:2px solid var(--bd2)}
+        .dt td{padding:0.35rem 0.3rem;border-bottom:1px solid var(--bd);vertical-align:top;font-size:0.58rem}
+        .dt tr:last-child td{border-bottom:none}
+        .ds{display:flex;align-items:center;gap:0.2rem;font-weight:600;color:var(--tx2);white-space:nowrap;font-size:0.52rem}
+        .dd{width:0.35rem;height:0.35rem;border-radius:50%;flex-shrink:0}.dd.efa{background:#3b82f6}.dd.pfa{background:#10b981}.dd.char{background:#f59e0b}
+        .dt-t{color:var(--tx);font-weight:600;font-size:0.58rem}.dt-p{color:var(--tx2);font-size:0.52rem}
+        .dt-tr{display:inline-flex;font-size:0.42rem;padding:0.08rem 0.25rem;border-radius:0.2rem;background:rgba(236,72,153,.1);color:#ec4899;font-weight:600;margin-top:0.1rem}
+
+        /* EDIT MODAL */
+        .cfg-bg{position:fixed;inset:0;background:var(--ol);backdrop-filter:blur(5px);z-index:300;display:none;align-items:center;justify-content:center;padding:1rem}
+        .cfg-bg.open{display:flex}
+        .cfg{background:var(--sf);border:1px solid var(--bd2);border-radius:0.8rem;max-width:42rem;width:100%;max-height:85vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+        .cfg-hd{display:flex;align-items:center;justify-content:space-between;padding:0.7rem 1rem;border-bottom:1px solid var(--bd)}
+        .cfg-hd h2{font-size:0.85rem;font-weight:800}
+        .cfg-tabs{display:flex;gap:0.2rem}
+        .cfg-tab{padding:0.25rem 0.6rem;border-radius:0.3rem;font-size:0.55rem;font-weight:600;cursor:pointer;border:1px solid var(--bd);background:var(--sf2);color:var(--tx2);transition:all .2s}
+        .cfg-tab:hover{background:var(--sfh)}.cfg-tab.active{background:#7c3aed;color:#fff;border-color:#7c3aed}
+        .cfg-bd{padding:0.8rem 1rem;overflow-y:auto;flex:1}.cfg-bd::-webkit-scrollbar{width:3px}.cfg-bd::-webkit-scrollbar-thumb{background:var(--bd2);border-radius:2px}
+        .ef-label{font-size:0.46rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05rem;color:var(--mu);margin-bottom:0.35rem}
+        .ef-row{display:grid;gap:0.25rem;align-items:center;padding:0.3rem 0;border-bottom:1px solid var(--bd)}
+        .ef-input{background:var(--sf2);border:1px solid var(--bd2);border-radius:0.25rem;padding:0.25rem 0.35rem;font-size:0.55rem;font-family:inherit;color:var(--tx);outline:none;width:100%}.ef-input:focus{border-color:#7c3aed}
+        .ef-btn{padding:0.22rem 0.45rem;border-radius:0.25rem;font-size:0.48rem;font-weight:600;cursor:pointer;border:none;transition:all .2s}
+        .ef-add{background:rgba(16,185,129,.1);color:#10b981;border:1px solid rgba(16,185,129,.2)}.ef-add:hover{background:rgba(16,185,129,.2)}
+        .ef-del{background:rgba(239,68,68,.1);color:#ef4444;border:1px solid rgba(239,68,68,.2)}.ef-del:hover{background:rgba(239,68,68,.2)}
+        .ef-save{background:#7c3aed;color:#fff;padding:0.35rem 1.2rem;font-size:0.58rem;font-weight:700;border-radius:0.35rem;margin-top:0.6rem}.ef-save:hover{background:#6d28d9}
+        .ef-select{background:var(--sf2);border:1px solid var(--bd2);border-radius:0.25rem;padding:0.2rem 0.3rem;font-size:0.5rem;color:var(--tx);outline:none}
+
+        @media(max-width:900px){.wrap{grid-template-columns:1fr}.left,.right{min-width:0}}
+    </style>
+</head>
+<body>
+
+<div class="hdr">
+    <div class="hdr-l"><div class="logo">M</div><h1>Lab Support Capability Matrix</h1><span>Package Reliability</span></div>
+    <div class="hdr-r">
+        <div class="scale-ctrl">
+            <button class="scale-btn" onclick="scaleUI(-10)">−</button>
+            <span class="scale-label" id="scaleLabel">150%</span>
+            <button class="scale-btn" onclick="scaleUI(10)">+</button>
+            <button class="scale-btn" onclick="scaleUI(0)" style="font-size:0.5rem">⟳</button>
+        </div>
+        <button class="hbtn" onclick="toggleEdit()">✏️ Edit</button>
+        <div class="tog" onclick="toggleTheme()"><div class="k"><span id="ti">🌙</span></div></div>
+        <div class="badge">Updated 11/27/2025</div>
+    </div>
+</div>
+
+<div id="hoverTip"></div>
+
+<div class="wrap">
+    <div class="left">
+        <div class="map-box" id="mapBox">
+            <img src="generated_image.png" alt="Map" id="mapImg"/>
+            <div id="pins"></div>
+            <div class="zoom-bar">
+                <button class="zbtn" onclick="zoomMap(-1)">−</button>
+                <button class="zbtn" onclick="zoomMap(0)">⟳</button>
+                <button class="zbtn" onclick="zoomMap(1)">+</button>
+            </div>
+        </div>
+        <div class="leg" id="sLeg"></div>
+    </div>
+    <div class="right">
+        <div class="mx-card">
+            <div class="mx-hd"><div class="mx-tt">📊 Product × Site</div><div class="mx-ht">Hover = preview · Click = detail</div></div>
+            <div class="mx-bd"><table class="mx" id="mtx"></table></div>
+        </div>
+        <div class="dp" id="dp">
+            <div class="dp-hd"><div class="dp-ic" id="dpIc"></div><div class="dp-inf"><h2 id="dpT"></h2><p id="dpS"></p></div><button class="dp-x" onclick="closeDP()">✕</button></div>
+            <div class="dp-bd" id="dpB"></div>
+            <div class="dp-ft"><div class="li"><div class="ld" style="background:#3b82f6"></div>EFA</div><div class="li"><div class="ld" style="background:#10b981"></div>PFA</div><div class="li"><div class="ld" style="background:#f59e0b"></div>Char</div></div>
+        </div>
+    </div>
+</div>
+
+<div class="cfg-bg" id="cfgBg" onclick="closeCfg(event)">
+    <div class="cfg" onclick="event.stopPropagation()">
+        <div class="cfg-hd"><h2>✏️ Edit Data</h2><div style="display:flex;gap:0.2rem;align-items:center"><div class="cfg-tabs"><button class="cfg-tab active" onclick="cfgTab('sites',this)">Sites</button><button class="cfg-tab" onclick="cfgTab('products',this)">Products</button><button class="cfg-tab" onclick="cfgTab('flows',this)">Flows</button></div><button class="dp-x" onclick="closeCfg()" style="margin-left:0.3rem">✕</button></div></div>
+        <div class="cfg-bd" id="cfgBd"></div>
+    </div>
+</div>
+
+<script>
+// ═══ SCALE CONTROL ═══
+let uiScale = 150;
+function scaleUI(delta) {
+    if (delta === 0) uiScale = 150;
+    else uiScale = Math.max(80, Math.min(200, uiScale + delta));
+    document.documentElement.style.fontSize = uiScale + '%';
+    document.getElementById('scaleLabel').textContent = uiScale + '%';
+}
+
+// ═══ DATA ═══
+let sites=[
+    {k:'mti',n:'MTI',l:'Boise, USA',f:'🇺🇸',c:'#06b6d4',px:17.5,py:43,ps:['All Families']},
+    {k:'msi',n:'MSI',l:'Gujarat, India',f:'🇮🇳',c:'#8b5cf6',px:60,py:51,ps:['PCDRAM','Graphics','NAND']},
+    {k:'mxa',n:'MXA',l:"Xi'an, China",f:'🇨🇳',c:'#10b981',px:82,py:28,ps:['PCDRAM','Mobile']},
+    {k:'mtb',n:'MTB',l:'Taichung, Taiwan',f:'🇹🇼',c:'#3b82f6',px:82.5,py:48,ps:['PCDRAM','Graphics','Mobile','HBM']},
+    {k:'mmp',n:'MMP',l:'Penang, Malaysia',f:'🇲🇾',c:'#f59e0b',px:72.5,py:60,ps:['PCDRAM','Mobile','NAND']},
+    {k:'msb',n:'MSB',l:'Singapore',f:'🇸🇬',c:'#ef4444',px:71.5,py:68,ps:['Graphics','Mobile','mNAND/MCP','NAND'],g:'sg'},
+    {k:'msh',n:'MSH',l:'Singapore',f:'🇸🇬',c:'#14b8a6',px:71.5,py:68,ps:['HBM'],g:'sg'},
+];
+let products=[
+    {k:'pcdram',n:'PCDRAM',i:'💾'},{k:'graphics',n:'Graphics',i:'🎮'},
+    {k:'mobile',n:'Mobile',i:'📱'},{k:'hbm',n:'HBM',i:'⚡'},
+    {k:'mnand',n:'mNAND/MCP',i:'💿'},{k:'nand',n:'NAND',i:'💽'},
+];
+let fl={
+'pcdram|mtb':{ch:'MTB',r:'MTB (3DS DDP, QDP)',rows:[{t:'efa',l:'1st EFA',tm:'MTB DEMQRA',p:'Gary Chen'},{t:'pfa',l:'1st PFA',tm:'MTB GQ PFA',p:'Elano Achumbre'},{t:'efa',l:'2nd EFA',tm:'MTB PYE',p:'Excel Burgos'},{t:'pfa',l:'2nd PFA',tm:'MTB PYE',p:'Excel Burgos'},{t:'char',l:'Char',tm:'MTB'}]},
+'pcdram|mxa':{ch:'MTB',r:'Qual,RPM,EXCR—MXA',rows:[{t:'efa',l:'1st EFA',tm:'MXA DEMQRA',p:'Leo Chen'},{t:'pfa',l:'1st PFA',tm:'MXA Site QA',p:'Linwan Shan'},{t:'efa',l:'2nd EFA',tm:'MXA QA & MTB PYE',p:'Linwan & Excel'},{t:'pfa',l:'2nd PFA',tm:'MXA QA & MTB PYE',p:'Linwan & Excel'},{t:'char',l:'Char',tm:'MTB'}]},
+'pcdram|msi':{ch:'MSB',r:'RPM,EXCR—MSI',rows:[{t:'efa',l:'1st EFA',tm:'MSI DEMQRA (FY26)',p:'Richard Gunawan'},{t:'pfa',l:'1st PFA',tm:'MSI PDE',p:'Sivabalan'},{t:'efa',l:'2nd EFA',tm:'MTI ➜ MSI PYE',p:"RFE Feb'29",tr:1},{t:'pfa',l:'2nd PFA',tm:'MTI ➜ MSI PYE',p:"RFE Feb'29",tr:1},{t:'char',l:'Char',tm:'MSB'}]},
+'pcdram|mmp':{ch:'MSB',r:'MMP',rows:[{t:'efa',l:'1st EFA',tm:'MMP DEMQRA',p:'Thanabal Krishnan'},{t:'pfa',l:'1st PFA',tm:'MMP GEL',p:'Wooi Keong Chan'},{t:'efa',l:'2nd EFA',tm:'MMP PYE',p:'Tony Leong'},{t:'pfa',l:'2nd PFA',tm:'MMP GEL / MMP PYE',p:'Wooi Keong / Tony'},{t:'char',l:'Char',tm:'MSB'}]},
+'graphics|mtb':{ch:'MTB',r:'MTB',rows:[{t:'efa',l:'1st EFA',tm:'MTB DEMQRA',p:'Chungsheng Wei'},{t:'pfa',l:'1st PFA',tm:'MTB GQ PFA',p:'Elano Achumbre'},{t:'efa',l:'2nd EFA',tm:'MTB PYE',p:'Excel Burgos'},{t:'pfa',l:'2nd PFA',tm:'MTB PYE',p:'Excel Burgos'},{t:'char',l:'Char',tm:'MTB'}]},
+'graphics|msb':{ch:'MSB',r:'Qual—MTB / EXCR—MSB',rows:[{t:'efa',l:'1st EFA',tm:'MTB DEMQRA / MSB NVMQRA',p:'C.Wei / Adeline'},{t:'pfa',l:'1st PFA',tm:'MTB GQ / MSB PYE & PQA',p:'Elano / Kah Meng'},{t:'efa',l:'2nd EFA',tm:'MTB PYE / MSB PYE',p:'Excel / Kah Meng'},{t:'pfa',l:'2nd PFA',tm:'MTB PYE / MSB PYE',p:'Excel / Teng Chye'},{t:'char',l:'Char',tm:'MSB'}]},
+'graphics|msi':{ch:'MTB/MSB',r:'Qual—MTB / EXCR—MSI',rows:[{t:'efa',l:'1st EFA',tm:'MTB / MSI DEMQRA',p:'C.Wei / R.Gunawan'},{t:'pfa',l:'1st PFA',tm:'MTB GQ / MSI PDE',p:'Elano / Sivabalan'},{t:'efa',l:'2nd EFA',tm:'MTB PYE / MTI➜MSI',p:"Excel / RFE Feb'29",tr:1},{t:'pfa',l:'2nd PFA',tm:'MTB PYE / MTI➜MSI',p:"Excel / RFE Feb'29",tr:1},{t:'char',l:'Char',tm:'MTB/MSB'}]},
+'mobile|mtb':{ch:'MTB',r:'MTB',rows:[{t:'efa',l:'1st EFA',tm:'MTB DEMQRA',p:'Rocky Cheng'},{t:'pfa',l:'1st PFA',tm:'MTB GQ PFA',p:'Elano Achumbre'},{t:'efa',l:'2nd EFA',tm:'MTB PYE',p:'Excel Burgos'},{t:'pfa',l:'2nd PFA',tm:'MTB PYE',p:'Excel Burgos'},{t:'char',l:'Char',tm:'MTB'}]},
+'mobile|mxa':{ch:'MTB',r:'MXA',rows:[{t:'efa',l:'1st EFA',tm:'MXA DEMQRA',p:'Leo Chen'},{t:'pfa',l:'1st PFA',tm:'MXA Site QA',p:'Linwan Shan'},{t:'efa',l:'2nd EFA',tm:'MXA QA & MTB PYE',p:'Linwan & Excel'},{t:'pfa',l:'2nd PFA',tm:'MXA QA & MTB PYE',p:'Linwan & Excel'},{t:'char',l:'Char',tm:'MTB'}]},
+'mobile|msb':{ch:'MSB',r:'MSB',rows:[{t:'efa',l:'1st EFA',tm:'MSB NVMQRA / Site TE',p:'Adeline / Weileng'},{t:'pfa',l:'1st PFA',tm:'MSB PYE & PQA',p:'Kah Meng Ong'},{t:'efa',l:'2nd EFA',tm:'MSB PYE',p:'Kah Meng Ong'},{t:'pfa',l:'2nd PFA',tm:'MSB PYE',p:'Teng Chye Ng'},{t:'char',l:'Char',tm:'MSB'}]},
+'mobile|mmp':{ch:'MTB/MSB',r:'Qual—MTB / EXCR—MXA / 160s—MSB',rows:[{t:'efa',l:'1st EFA',tm:'MTB/MXA/MSB',p:'Rocky/Leo/Adeline'},{t:'pfa',l:'1st PFA',tm:'MTB GQ / MXA QA / MSB',p:'Various'},{t:'efa',l:'2nd EFA',tm:'MTB/MXA+MTB/MSB PYE',p:'Various'},{t:'pfa',l:'2nd PFA',tm:'MTB/MXA+MTB/MSB PYE',p:'Various'},{t:'char',l:'Char',tm:'MTB/MSB'}]},
+'hbm|mtb':{ch:'MTB',r:'MTB',rows:[{t:'efa',l:'1st EFA',tm:'MTB DEMQRA',p:'Chungsheng Wei'},{t:'pfa',l:'1st PFA',tm:'MTB GQ PFA',p:'Elano Achumbre'},{t:'efa',l:'2nd EFA',tm:'MTB PYE',p:'Excel Burgos'},{t:'pfa',l:'2nd PFA',tm:'MTB PYE',p:'Excel Burgos'},{t:'char',l:'Char',tm:'MTB'}]},
+'hbm|msh':{ch:'MSB',r:'MSH Singapore',rows:[{t:'efa',l:'1st EFA',tm:'MSH DEMQRA',p:'Siraj Manavaian'},{t:'pfa',l:'1st PFA',tm:'MSH PYE & PQA',p:''},{t:'efa',l:'2nd EFA',tm:'MSB PYE',p:'Kah Meng Ong'},{t:'pfa',l:'2nd PFA',tm:'MSB PYE',p:'Kah Meng Ong'},{t:'char',l:'Char',tm:'MSB'}]},
+'mnand|msb':{ch:'MSB',r:'MSB',rows:[{t:'efa',l:'1st EFA',tm:'MSB NVMQRA',p:'Adeline'},{t:'pfa',l:'1st PFA',tm:'MSB PYE & PQA',p:'Kah Meng Ong'},{t:'efa',l:'2nd EFA',tm:'MSB PYE',p:'Kah Meng Ong'},{t:'pfa',l:'2nd PFA',tm:'MSB PYE',p:'Teng Chye Ng'},{t:'char',l:'Char',tm:'MSB'}]},
+'nand|msb':{ch:'MSB',r:'MSB',rows:[{t:'efa',l:'1st EFA',tm:'MSB NVMQRA',p:'Chin Keat Seng'},{t:'pfa',l:'1st PFA',tm:'MSB PYE & PQA',p:'Kah Meng Ong'},{t:'efa',l:'2nd EFA',tm:'MSB PYE',p:'Kah Meng Ong'},{t:'pfa',l:'2nd PFA',tm:'MSB PYE',p:'Teng Chye Ng'},{t:'char',l:'Char',tm:'MSB'}]},
+'nand|mmp':{ch:'MSB',r:'MMP',rows:[{t:'efa',l:'1st EFA',tm:'MMP NVMQRA',p:'Chin Keat Seng'},{t:'pfa',l:'1st PFA',tm:'MMP GEL',p:'Wooi Keong Chan'},{t:'efa',l:'2nd EFA',tm:'MMP PYE',p:'Tony Leong'},{t:'pfa',l:'2nd PFA',tm:'MMP GEL / MMP PYE',p:'Wooi Keong / Tony'},{t:'char',l:'Char',tm:'MSB'}]},
+'nand|msi':{ch:'MSB',r:'Qual—MMP / EXCR—MSI',rows:[{t:'efa',l:'1st EFA',tm:'MMP/MSI NVMQRA',p:'Chin Keat Seng'},{t:'pfa',l:'1st PFA',tm:'MMP GEL / MSI PDE',p:'Wooi Keong / Sivabalan'},{t:'efa',l:'2nd EFA',tm:'MMP PYE / MTI➜MSI',p:"Tony / RFE Feb'29",tr:1},{t:'pfa',l:'2nd PFA',tm:'MMP / MTI➜MSI PYE',p:'Various',tr:1},{t:'char',l:'Char',tm:'MSB'}]},
+};
+
+// ═══ RENDER ═══
+let aPin=null,selK=null;
+function renderAll(){renderPins();renderLeg();renderMtx();}
+
+function renderPins(){
+    const el=document.getElementById('pins');const seen=new Set();let h='';
+    sites.forEach(s=>{const gk=s.g||s.k;if(seen.has(gk))return;seen.add(gk);
+    const grp=sites.filter(x=>(x.g||x.k)===gk);const isSg=grp.length>1;const act=grp.some(x=>x.k===aPin);const c=grp[0].c;
+    const lbl=grp.map(x=>x.n).join(', ');const allP=[...new Set(grp.flatMap(x=>x.ps))];
+    h+=`<div class="pin ${act?'act':''}" style="left:${s.px}%;top:${s.py}%" onclick="pClick('${grp[0].k}')">
+        <div class="pin-p" style="background:${c}"></div>
+        <div class="pin-o">${isSg?`<div class="pin-d"><span style="background:${grp[0].c}"></span><span style="background:${grp[1].c}"></span></div>`:`<div class="pin-i" style="background:${c}"></div>`}</div>
+        <div class="pin-tt"><div class="ptt-h"><span class="ptt-f">${s.f}</span><span class="ptt-n" style="color:${c}">${lbl}</span></div><div class="ptt-l">${s.l}</div><div class="ptt-ps">${allP.map(p=>`<span class="ptt-c">${p}</span>`).join('')}</div></div>
+    </div>`;});el.innerHTML=h;
+}
+
+function renderLeg(){
+    document.getElementById('sLeg').innerHTML=sites.map(s=>`<div class="leg-i ${s.k===aPin?'act':''}" onclick="pClick('${s.k}')"><div class="leg-d" style="background:${s.c}"></div><span class="leg-n" style="color:${s.c}">${s.f} ${s.n}</span><span class="leg-l">${s.l.split(',')[0]}</span></div>`).join('');
+}
+
+function renderMtx(){
+    const t=document.getElementById('mtx');
+    let h='<thead><tr><th>Product</th>';
+    sites.forEach(s=>{h+=`<th><div class="ch"><span class="ch-f">${s.f}</span><div class="ch-n" style="color:${s.c}">${s.n}</div><div class="ch-l">${s.l.split(',')[0]}</div></div></th>`;});
+    h+='</tr></thead><tbody>';
+    products.forEach(prod=>{h+='<tr>';
+        h+=`<td><div class="pc"><span class="i">${prod.i}</span><span class="n">${prod.n}</span></div></td>`;
+        sites.forEach(site=>{const k=`${prod.k}|${site.k}`;const d=fl[k];
+            if(d){h+=`<td class="cl ${selK===k?'act':''}" onclick="cellClick('${prod.k}','${site.k}')" onmouseenter="showTip(event,'${prod.k}','${site.k}')" onmouseleave="hideTip()"><div class="cb" style="background:${site.c}12;color:${site.c};border:1px solid ${site.c}20">✓</div><div class="cch">Char: ${d.ch}</div></td>`;}
+            else{h+=`<td class="cl em"><span style="color:var(--mu);font-size:0.5rem">—</span></td>`;}
+        });h+='</tr>';});
+    h+='</tbody>';t.innerHTML=h;
+}
+
+function pClick(k){aPin=k;renderPins();renderLeg();}
+
+// ═══ HOVER TOOLTIP ═══
+const tipEl=document.getElementById('hoverTip');
+function showTip(ev,pk,sk){
+    const d=fl[`${pk}|${sk}`];if(!d)return;
+    const prod=products.find(p=>p.k===pk);const site=sites.find(s=>s.k===sk);
+    tipEl.innerHTML=`<div class="ht-t">${site.f} <span style="color:${site.c}">${prod.n} — ${site.n}</span></div><div class="ht-r">Rel: ${d.r} · Char: ${d.ch}</div>${d.rows.map(r=>`<div class="ht-row"><div class="ht-s"><div class="ht-d ${r.t}"></div>${r.l}</div><div class="ht-tm">${r.tm}${r.tr?'<div class="ht-tr">⚠ Transition</div>':''}</div><div class="ht-p">${r.p||'—'}</div></div>`).join('')}`;
+    posTip(ev);tipEl.classList.add('vis');
+}
+function hideTip(){tipEl.classList.remove('vis');}
+function posTip(ev){
+    const w=tipEl.offsetWidth||200,h=tipEl.offsetHeight||120;
+    let x=ev.clientX+14,y=ev.clientY-h-10;
+    if(x+w>window.innerWidth-12)x=ev.clientX-w-14;
+    if(y<10)y=ev.clientY+18;
+    tipEl.style.left=x+'px';tipEl.style.top=y+'px';
+}
+document.addEventListener('mousemove',e=>{if(tipEl.classList.contains('vis'))posTip(e);});
+
+// ═══ CELL CLICK ═══
+function cellClick(pk,sk){
+    selK=`${pk}|${sk}`;hideTip();
+    const prod=products.find(p=>p.k===pk);const site=sites.find(s=>s.k===sk);const d=fl[selK];if(!d)return;
+    const dp=document.getElementById('dp');dp.classList.add('open');
+    document.getElementById('dpIc').style.cssText=`background:${site.c}18;color:${site.c}`;
+    document.getElementById('dpIc').textContent=prod.i;
+    document.getElementById('dpT').textContent=`${site.f} ${prod.n} — ${site.n}`;
+    document.getElementById('dpS').textContent=`📍 ${site.l} · Rel: ${d.r} · Char: ${d.ch}`;
+    document.getElementById('dpB').innerHTML=`<table class="dt"><thead><tr><th>Stage</th><th>Team / Lab</th><th>Contact</th></tr></thead><tbody>${d.rows.map(r=>`<tr><td><div class="ds"><div class="dd ${r.t}"></div>${r.l}</div></td><td><div class="dt-t">${r.tm}</div>${r.tr?'<div class="dt-tr">⚠ Planned Transition</div>':''}</td><td class="dt-p">${r.p||'—'}</td></tr>`).join('')}</tbody></table>`;
+    renderMtx();aPin=sk;renderPins();renderLeg();
+}
+function closeDP(){document.getElementById('dp').classList.remove('open');selK=null;renderMtx();}
+
+// ═══ MAP ZOOM ═══
+let mapZ=1,mapOx=0,mapOy=0,mdrag=false,mds={x:0,y:0};
+function zoomMap(dir){
+    const img=document.getElementById('mapImg');const box=document.getElementById('mapBox');
+    if(dir===0){mapZ=1;mapOx=0;mapOy=0;}else{mapZ=Math.max(1,Math.min(3,mapZ+(dir*0.4)));}
+    if(mapZ<=1){mapOx=0;mapOy=0;}
+    img.style.transform=`scale(${mapZ}) translate(${mapOx}px,${mapOy}px)`;
+    box.classList.toggle('zoomed',mapZ>1);
+}
+document.getElementById('mapBox').addEventListener('mousedown',e=>{if(mapZ<=1)return;mdrag=true;mds={x:e.clientX-mapOx*mapZ,y:e.clientY-mapOy*mapZ};e.preventDefault();});
+document.addEventListener('mousemove',e=>{if(!mdrag)return;mapOx=(e.clientX-mds.x)/mapZ;mapOy=(e.clientY-mds.y)/mapZ;document.getElementById('mapImg').style.transform=`scale(${mapZ}) translate(${mapOx}px,${mapOy}px)`;});
+document.addEventListener('mouseup',()=>{mdrag=false;});
+
+// ═══ THEME ═══
+function toggleTheme(){const n=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',n);document.getElementById('ti').textContent=n==='dark'?'🌙':'☀️';}
+
+// ═══ EDIT ═══
+let curTab='sites';
+function toggleEdit(){document.getElementById('cfgBg').classList.add('open');renderCfg();}
+function closeCfg(e){if(e&&e.target!==e.currentTarget)return;document.getElementById('cfgBg').classList.remove('open');}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeCfg();closeDP();hideTip();}});
+function cfgTab(tab,btn){curTab=tab;document.querySelectorAll('.cfg-tab').forEach(t=>t.classList.remove('active'));btn.classList.add('active');renderCfg();}
+
+function renderCfg(){
+    const bd=document.getElementById('cfgBd');
+    if(curTab==='sites'){
+        bd.innerHTML=`<div class="ef-label">Sites — Flag · Key · Name · Location · Color · Pin X% · Pin Y%</div>
+        ${sites.map((s,i)=>`<div class="ef-row" style="grid-template-columns:2.2rem 2.8rem 4rem 1fr 3.2rem 2.8rem 2.8rem 1.6rem">
+            <input class="ef-input" value="${s.f}" onchange="sites[${i}].f=this.value;renderAll()" style="text-align:center;font-size:0.85rem"/>
+            <input class="ef-input" value="${s.k}" onchange="sites[${i}].k=this.value;renderAll()"/>
+            <input class="ef-input" value="${s.n}" onchange="sites[${i}].n=this.value;renderAll()"/>
+            <input class="ef-input" value="${s.l}" onchange="sites[${i}].l=this.value;renderAll()"/>
+            <input class="ef-input" type="color" value="${s.c}" onchange="sites[${i}].c=this.value;renderAll()" style="padding:0.05rem;height:1.5rem"/>
+            <input class="ef-input" type="number" value="${s.px}" step="0.5" onchange="sites[${i}].px=+this.value;renderAll()"/>
+            <input class="ef-input" type="number" value="${s.py}" step="0.5" onchange="sites[${i}].py=+this.value;renderAll()"/>
+            <button class="ef-btn ef-del" onclick="sites.splice(${i},1);renderAll();renderCfg()">✕</button>
+        </div>`).join('')}
+        <button class="ef-btn ef-add" onclick="sites.push({k:'new',n:'NEW',l:'Location',f:'🏳️',c:'#888888',px:50,py:50,ps:[]});renderAll();renderCfg()">+ Add Site</button>
+        <br><button class="ef-btn ef-save" onclick="closeCfg();renderAll()">✅ Save & Close</button>`;
+    }else if(curTab==='products'){
+        bd.innerHTML=`<div class="ef-label">Products — Icon · Key · Name</div>
+        ${products.map((p,i)=>`<div class="ef-row" style="grid-template-columns:2.5rem 4.5rem 1fr 1.6rem">
+            <input class="ef-input" value="${p.i}" onchange="products[${i}].i=this.value;renderAll()" style="text-align:center;font-size:0.9rem"/>
+            <input class="ef-input" value="${p.k}" onchange="products[${i}].k=this.value;renderAll()"/>
+            <input class="ef-input" value="${p.n}" onchange="products[${i}].n=this.value;renderAll()"/>
+            <button class="ef-btn ef-del" onclick="products.splice(${i},1);renderAll();renderCfg()">✕</button>
+        </div>`).join('')}
+        <button class="ef-btn ef-add" onclick="products.push({k:'new',n:'New',i:'📦'});renderAll();renderCfg()">+ Add Product</button>
+        <br><button class="ef-btn ef-save" onclick="closeCfg();renderAll()">✅ Save & Close</button>`;
+    }else{
+        const keys=Object.keys(fl);
+        bd.innerHTML=`<div class="ef-label">Flows (${keys.length} entries) — expand to edit</div>
+        ${keys.map(k=>{const d=fl[k];const[pk,sk]=k.split('|');const pr=products.find(p=>p.k===pk);const st=sites.find(s=>s.k===sk);
+            return`<details style="margin-bottom:0.35rem;border:1px solid var(--bd);border-radius:0.35rem;overflow:hidden"><summary style="padding:0.35rem 0.55rem;background:var(--sf2);cursor:pointer;font-size:0.55rem;font-weight:700">${pr?.i||'?'} ${pr?.n||pk} × <span style="color:${st?.c||'#888'}">${st?.n||sk}</span> <span style="float:right;font-size:0.42rem;color:var(--mu)">Char:${d.ch}</span></summary><div style="padding:0.45rem 0.55rem">
+                <div style="display:flex;gap:0.25rem;margin-bottom:0.35rem"><span style="font-size:0.42rem;color:var(--mu)">Char:</span><input class="ef-input" value="${d.ch}" style="width:3.5rem" onchange="fl['${k}'].ch=this.value;renderAll()"/><span style="font-size:0.42rem;color:var(--mu)">Rel:</span><input class="ef-input" value="${d.r}" style="flex:1" onchange="fl['${k}'].r=this.value;renderAll()"/></div>
+                ${d.rows.map((r,ri)=>`<div style="display:grid;grid-template-columns:3.2rem 2.5rem 1fr 1fr 1.2rem;gap:0.2rem;padding:0.15rem 0;border-bottom:1px solid var(--bd);font-size:0.48rem">
+                    <select class="ef-select" onchange="fl['${k}'].rows[${ri}].t=this.value;renderAll()"><option value="efa"${r.t==='efa'?' selected':''}>EFA</option><option value="pfa"${r.t==='pfa'?' selected':''}>PFA</option><option value="char"${r.t==='char'?' selected':''}>Char</option></select>
+                    <input class="ef-input" value="${r.l}" onchange="fl['${k}'].rows[${ri}].l=this.value;renderAll()"/>
+                    <input class="ef-input" value="${r.tm}" onchange="fl['${k}'].rows[${ri}].tm=this.value;renderAll()"/>
+                    <input class="ef-input" value="${r.p||''}" placeholder="Contact" onchange="fl['${k}'].rows[${ri}].p=this.value;renderAll()"/>
+                    <button class="ef-btn ef-del" style="font-size:0.4rem;padding:0.1rem 0.2rem" onclick="fl['${k}'].rows.splice(${ri},1);renderCfg()">✕</button>
+                </div>`).join('')}
+                <button class="ef-btn ef-add" style="margin-top:0.2rem;font-size:0.42rem" onclick="fl['${k}'].rows.push({t:'efa',l:'New',tm:'Team',p:''});renderCfg()">+ Row</button>
+            </div></details>`;}).join('')}
+        <br><button class="ef-btn ef-save" onclick="closeCfg();renderAll()">✅ Save & Close</button>`;
+    }
+}
+
+renderAll();
+</script>
+</body>
+</html>
+
+							<script>
+                            	
+							</script>
+                        </body>
+                        </html>
+                    
