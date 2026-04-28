@@ -22,11 +22,9 @@
     <style>
         *{margin:0;padding:0;box-sizing:border-box}
         body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0b1420;color:#1a2d42;line-height:1.6;overflow:hidden;height:100vh;width:100vw}
-
         .slide-container{position:fixed;inset:0;overflow:hidden}
         .slide-page{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;opacity:0;visibility:hidden;transition:none;transform:translateY(100%);z-index:1}
         .slide-page.active{opacity:1;visibility:visible;transform:translateY(0);z-index:2}
-
         .nav{position:fixed;top:0;left:0;right:0;z-index:100;height:52px;background:linear-gradient(135deg,rgba(11,20,32,.97),rgba(26,45,66,.95));backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:space-between;padding:0 20px;border-bottom:1px solid rgba(184,148,62,.1)}
         .nav-brand{display:flex;align-items:center;gap:8px}
         .nav-logo{width:26px;height:26px;border:1.5px solid #d4af5a;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#d4af5a;font-weight:900;font-size:9px;background:rgba(184,148,62,.06)}
@@ -35,14 +33,12 @@
         .nav-links button{background:transparent;border:none;color:rgba(255,255,255,.4);font-size:10px;font-weight:700;padding:5px 10px;border-radius:6px;cursor:pointer;text-transform:uppercase;letter-spacing:.6px;transition:all .25s ease;white-space:nowrap}
         .nav-links button:hover{color:#fff;background:rgba(184,148,62,.1)}
         .nav-links button.active{color:#0b1420;background:linear-gradient(135deg,#e8c96e,#b8943e)}
-
         .page-indicator{position:fixed;right:24px;top:50%;transform:translateY(-50%);z-index:100;display:flex;flex-direction:column;align-items:center;gap:6px}
         .page-dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.12);cursor:pointer;transition:all .35s ease;border:none;position:relative}
         .page-dot::after{content:attr(data-label);position:absolute;right:20px;top:50%;transform:translateY(-50%);white-space:nowrap;font-size:9px;font-weight:700;color:rgba(255,255,255,.5);opacity:0;transition:opacity .25s ease;pointer-events:none;text-transform:uppercase;background:rgba(11,20,32,.85);padding:3px 8px;border-radius:4px}
         .page-dot:hover::after{opacity:1}
         .page-dot.active{background:#d4af5a;height:28px;border-radius:5px}
         .page-dot.hast-dot.active{background:#4a8ab5}
-
         .bottom-bar{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:100;display:flex;align-items:center;gap:14px;background:rgba(11,20,32,.8);backdrop-filter:blur(10px);padding:6px 16px;border-radius:40px;border:1px solid rgba(255,255,255,.06)}
         .bottom-btn{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);color:#fff;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;transition:all .25s ease}
         .bottom-btn:hover{background:rgba(184,148,62,.15);border-color:#b8943e}
@@ -50,19 +46,21 @@
         .bottom-counter{color:rgba(255,255,255,.35);font-size:10px;font-weight:700;letter-spacing:1px;min-width:36px;text-align:center}
         .bottom-hint{color:rgba(255,255,255,.2);font-size:8px;letter-spacing:1px;text-transform:uppercase}
 
-        .edit-toggle{position:fixed;top:58px;right:16px;z-index:100;display:flex;align-items:center;gap:6px;background:rgba(11,20,32,.85);backdrop-filter:blur(10px);padding:5px 12px;border-radius:20px;border:1px solid rgba(184,148,62,.15);cursor:pointer;transition:all .3s ease}
+        .edit-panel{position:fixed;top:58px;right:16px;z-index:100;display:flex;gap:6px;align-items:center}
+        .edit-toggle{display:flex;align-items:center;gap:6px;background:rgba(11,20,32,.85);backdrop-filter:blur(10px);padding:5px 12px;border-radius:20px;border:1px solid rgba(184,148,62,.15);cursor:pointer;transition:all .3s ease}
         .edit-toggle:hover{border-color:rgba(184,148,62,.4)}
         .edit-toggle-label{color:#d4af5a;font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
         .edit-switch{width:32px;height:18px;background:rgba(255,255,255,.1);border-radius:9px;position:relative;transition:background .3s ease}
         .edit-switch::after{content:'';position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:#8899aa;transition:all .3s ease}
         .edit-toggle.active .edit-switch{background:rgba(184,148,62,.3)}
         .edit-toggle.active .edit-switch::after{left:16px;background:#d4af5a}
+        .export-btn{display:none;align-items:center;gap:5px;background:linear-gradient(135deg,#2ecc71,#27ae60);color:#fff;padding:6px 16px;border-radius:20px;border:none;cursor:pointer;font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;transition:all .3s ease;white-space:nowrap}
+        body.edit-mode .export-btn{display:flex}
+        .export-btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(46,204,113,.3)}
 
         .page-inner{min-height:100vh;padding-top:52px}
-
         body.edit-mode [contenteditable="true"]{outline:1px dashed rgba(184,148,62,.3);outline-offset:2px;border-radius:3px;cursor:text}
         body.edit-mode [contenteditable="true"]:focus{outline-color:#d4af5a;background:rgba(184,148,62,.04)}
-        body.edit-mode [contenteditable="true"]:hover{outline-color:rgba(184,148,62,.5)}
 
         /* HERO */
         .hero-page{background:#0b1420;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
@@ -85,7 +83,6 @@
         .hdot:nth-child(5){width:2px;height:2px;background:rgba(74,138,181,.18);left:85%;top:15%;animation-delay:3s}
         .hdot:nth-child(6){width:2px;height:2px;background:rgba(184,148,62,.15);left:90%;top:50%;animation-delay:5s}
         @keyframes hf{0%,100%{transform:translateY(0) translateX(0);opacity:.2}25%{transform:translateY(-20px) translateX(8px);opacity:.5}75%{transform:translateY(-30px) translateX(-5px);opacity:.35}}
-
         .hero-content{position:relative;z-index:3;text-align:center;padding:16px;max-width:1100px;width:100%}
         .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(184,148,62,.08);border:1px solid rgba(184,148,62,.2);color:#e8c96e;padding:4px 18px;border-radius:50px;font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:14px}
         .badge-dot{width:6px;height:6px;border-radius:50%;background:#e8c96e;animation:pulse 2s ease-in-out infinite}
@@ -174,7 +171,6 @@
         .utitle-line{flex:1;height:1px;min-width:30px}
         .utitle-line.h-line{background:linear-gradient(to right,rgba(46,92,138,.2),transparent)}
         .utitle-line.i-line{background:linear-gradient(to right,rgba(184,148,62,.2),transparent)}
-
         .sub-section{background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 2px 16px rgba(11,20,32,.05);border:1px solid #e2e8ee;margin-bottom:18px}
         .sub-head{display:flex;align-items:center;gap:10px;padding:12px 18px;flex-wrap:wrap}
         .sub-head.gh{background:linear-gradient(135deg,#0b1420,#1a2d42 65%,rgba(139,105,20,.22))}
@@ -193,84 +189,53 @@
 
         /* GALLERY */
         .gallery{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;position:relative;align-items:flex-start}
-        .drop-zone{display:none;width:100%;min-height:120px;border:2px dashed rgba(184,148,62,.3);border-radius:12px;background:rgba(184,148,62,.03);flex-direction:column;align-items:center;justify-content:center;gap:6px;cursor:pointer;transition:all .3s ease;padding:14px}
-        body.edit-mode .drop-zone{display:flex}
+
+        /* Drop zone + URL paste zone */
+        .add-media-zone{display:none;width:100%;gap:8px;flex-direction:column}
+        body.edit-mode .add-media-zone{display:flex}
+
+        .drop-zone{width:100%;min-height:100px;border:2px dashed rgba(184,148,62,.3);border-radius:12px;background:rgba(184,148,62,.03);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;transition:all .3s ease;padding:12px}
         .drop-zone:hover,.drop-zone.drag-over{border-color:#d4af5a;background:rgba(184,148,62,.08)}
-        .drop-zone-icon{font-size:22px;opacity:.5}
+        .drop-zone-icon{font-size:20px;opacity:.5}
         .drop-zone-text{font-size:10px;color:#8899aa;font-weight:600;text-align:center}
         .drop-zone-text strong{color:#d4af5a}
         .drop-zone-sub{font-size:8px;color:#b0bec5}
         .drop-zone input[type="file"]{display:none}
 
-        /* Gallery items — width based, no crop */
-        .gi{position:relative;overflow:hidden;border-radius:8px;cursor:pointer;background:#dde3ea;flex-shrink:0}
-        .gi.sz-s{width:calc(25% - 5px)}
-        .gi.sz-m{width:calc(33.33% - 4px)}
-        .gi.sz-l{width:calc(50% - 3px)}
-        .gi.sz-xl{width:100%}
+        /* URL paste box */
+        .url-paste-zone{width:100%;border:2px dashed rgba(52,152,219,.25);border-radius:12px;background:rgba(52,152,219,.03);padding:10px 14px;transition:all .3s ease}
+        .url-paste-zone:focus-within{border-color:#3498db;background:rgba(52,152,219,.06)}
+        .url-paste-header{display:flex;align-items:center;gap:6px;margin-bottom:6px}
+        .url-paste-header span{font-size:9px;font-weight:700;color:#3498db;letter-spacing:1px;text-transform:uppercase}
+        .url-paste-row{display:flex;gap:6px;align-items:center}
+        .url-paste-row select{background:rgba(52,152,219,.08);border:1px solid rgba(52,152,219,.2);color:#3498db;padding:5px 8px;border-radius:6px;font-size:9px;font-weight:700;outline:none;cursor:pointer}
+        .url-paste-row input[type="text"]{flex:1;background:#fff;border:1px solid #dde3ea;border-radius:6px;padding:6px 10px;font-size:10px;outline:none;color:#1a2d42}
+        .url-paste-row input[type="text"]:focus{border-color:#3498db}
+        .url-paste-row input[type="text"]::placeholder{color:#b0bec5}
+        .url-paste-add{background:linear-gradient(135deg,#3498db,#2980b9);color:#fff;border:none;padding:6px 14px;border-radius:6px;font-size:9px;font-weight:800;cursor:pointer;letter-spacing:.5px;text-transform:uppercase;transition:all .2s ease;white-space:nowrap}
+        .url-paste-add:hover{transform:translateY(-1px);box-shadow:0 3px 10px rgba(52,152,219,.3)}
+        .url-paste-hint{font-size:8px;color:#b0bec5;margin-top:4px}
 
+        /* Gallery items */
+        .gi{position:relative;overflow:hidden;border-radius:8px;cursor:pointer;background:#dde3ea;flex-shrink:0}
+        .gi.sz-s{width:calc(25% - 5px)}.gi.sz-m{width:calc(33.33% - 4px)}.gi.sz-l{width:calc(50% - 3px)}.gi.sz-xl{width:100%}
         .gi img{width:100%;height:auto;display:block;border-radius:8px;transition:transform .4s ease}
         .gi:hover img{transform:scale(1.02)}
-
-        /* VIDEO — full size, no crop */
         .gi video{width:100%;height:auto;display:block;border-radius:8px}
-
-        /* Video preview overlay */
+        .gi iframe{width:100%;aspect-ratio:16/9;border:none;border-radius:8px;display:block}
         .gi-video-wrap{position:relative;width:100%;border-radius:8px;overflow:hidden}
-
-        .gi-play-overlay{
-            position:absolute;inset:0;
-            display:flex;align-items:center;justify-content:center;
-            background:rgba(11,20,32,.3);
-            transition:all .3s ease;
-            pointer-events:none;z-index:3;
-        }
-
-        .gi-play-btn{
-            width:48px;height:48px;border-radius:50%;
-            background:rgba(255,255,255,.9);
-            display:flex;align-items:center;justify-content:center;
-            box-shadow:0 4px 20px rgba(0,0,0,.3);
-            transition:all .3s ease;
-        }
-
-        .gi-play-btn::after{
-            content:'';
-            width:0;height:0;
-            border-left:16px solid #1a2d42;
-            border-top:10px solid transparent;
-            border-bottom:10px solid transparent;
-            margin-left:3px;
-        }
-
-        /* On hover: overlay fades, play btn shrinks — video auto-previews */
-        .gi:hover .gi-play-overlay{background:rgba(11,20,32,.1)}
-        .gi:hover .gi-play-btn{transform:scale(.85);opacity:.7}
+        .gi-play-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(11,20,32,.3);transition:all .3s ease;pointer-events:none;z-index:3}
+        .gi-play-btn{width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.9);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(0,0,0,.3);transition:all .3s ease}
+        .gi-play-btn::after{content:'';width:0;height:0;border-left:16px solid #1a2d42;border-top:10px solid transparent;border-bottom:10px solid transparent;margin-left:3px}
+        .gi:hover .gi-play-overlay{background:rgba(11,20,32,.1)}.gi:hover .gi-play-btn{transform:scale(.85);opacity:.7}
         .gi.previewing .gi-play-overlay{opacity:0}
-
-        .gi-video-badge{
-            position:absolute;top:6px;left:6px;padding:3px 8px;border-radius:4px;
-            background:rgba(231,76,60,.85);color:#fff;font-size:7px;font-weight:800;
-            letter-spacing:1px;text-transform:uppercase;
-            display:flex;align-items:center;gap:3px;z-index:4;
-        }
+        .gi-video-badge{position:absolute;top:6px;left:6px;padding:3px 8px;border-radius:4px;background:rgba(231,76,60,.85);color:#fff;font-size:7px;font-weight:800;letter-spacing:1px;text-transform:uppercase;display:flex;align-items:center;gap:3px;z-index:4}
         .gi-video-badge::before{content:'▶';font-size:6px}
-
-        /* Video duration badge */
-        .gi-duration{
-            position:absolute;bottom:8px;right:8px;
-            padding:2px 6px;border-radius:3px;
-            background:rgba(0,0,0,.7);color:#fff;
-            font-size:9px;font-weight:700;z-index:4;
-            letter-spacing:.5px;
-        }
-
-        /* Caption */
+        .gi-embed-badge{position:absolute;top:6px;left:6px;padding:3px 8px;border-radius:4px;background:rgba(52,152,219,.85);color:#fff;font-size:7px;font-weight:800;letter-spacing:1px;text-transform:uppercase;z-index:4}
+        .gi-duration{position:absolute;bottom:8px;right:8px;padding:2px 6px;border-radius:3px;background:rgba(0,0,0,.7);color:#fff;font-size:9px;font-weight:700;z-index:4}
         .gi-cap{position:absolute;bottom:0;left:0;right:0;padding:10px 12px;background:linear-gradient(transparent 0%,rgba(11,20,32,.88) 100%);display:none;border-radius:0 0 8px 8px;z-index:4}
         .gi-cap.visible{display:block}
         .gi-cap span{font-size:12px;color:#fff;font-weight:700;text-shadow:0 1px 4px rgba(0,0,0,.6);line-height:1.4;display:block}
-
-        /* Edit toolbar */
         .gi-toolbar{position:absolute;top:0;left:0;right:0;z-index:6;padding:5px 6px;background:linear-gradient(rgba(11,20,32,.9),rgba(11,20,32,.4),transparent);display:none;align-items:center;gap:3px;flex-wrap:wrap}
         body.edit-mode .gi-toolbar{display:flex}
         .gi-tool-btn{padding:3px 7px;border-radius:4px;font-size:8px;font-weight:800;cursor:pointer;border:none;transition:all .2s ease;letter-spacing:.5px;text-transform:uppercase}
@@ -281,7 +246,6 @@
         .gi-cap-toggle.cap-on{background:rgba(46,204,113,.15);color:#2ecc71;border-color:rgba(46,204,113,.2)}
         .gi-del-btn{background:rgba(231,76,60,.7);color:#fff;border:1px solid rgba(231,76,60,.3);margin-left:auto}
         .gi-del-btn:hover{background:#c0392b}
-
         .gi-cap-edit{position:absolute;bottom:0;left:0;right:0;padding:6px;background:rgba(11,20,32,.8);display:none;border-radius:0 0 8px 8px;z-index:5}
         body.edit-mode .gi-cap-edit{display:block}
         body.edit-mode .gi-cap{display:none !important}
@@ -300,7 +264,6 @@
         .db ul li{font-size:11px;color:#4a5568;padding:2px 0 2px 11px;position:relative;line-height:1.45}
         .db ul li::before{content:'';width:4px;height:4px;border-radius:50%;position:absolute;left:0;top:8px}
         .db.ag ul li::before{background:#b8943e}.db.ab ul li::before{background:#4a8ab5}.db.agn ul li::before{background:#2ecc71}.db.ar ul li::before{background:#e74c3c}
-
         .ck{display:flex;align-items:center;gap:6px;padding:3px 0;font-size:11px;color:#4a5568}
         .ck-i{width:17px;height:17px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:900;flex-shrink:0}
         .ck-i.d{background:rgba(46,204,113,.07);color:#2ecc71;border:1px solid rgba(46,204,113,.12)}
@@ -333,12 +296,12 @@
         .footer-area .brand{font-size:15px;font-weight:800;color:#b8943e;letter-spacing:3px;margin-bottom:3px}
         .footer-area .tagline{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:#8899aa;margin-bottom:6px}
         .footer-area p{font-size:11px;color:#8899aa}
-
         .lightbox{position:fixed;inset:0;z-index:9999;background:rgba(11,20,32,.95);display:none;flex-direction:column;align-items:center;justify-content:center}
         .lightbox.open{display:flex}
         .lb-close{position:absolute;top:14px;right:14px;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;font-size:18px}
         .lb-close:hover{background:rgba(255,255,255,.12)}
         .lb-media{max-width:88vw;max-height:70vh;border-radius:10px;box-shadow:0 16px 48px rgba(0,0,0,.4);object-fit:contain}
+        .lb-embed{width:80vw;height:70vh;border:none;border-radius:10px;box-shadow:0 16px 48px rgba(0,0,0,.4)}
         .lb-cap{margin-top:8px;color:#ccc;font-size:13px;font-weight:600}
         .lb-cnt{margin-top:3px;color:#d4af5a;font-size:9px;font-weight:700;letter-spacing:2px}
         .lb-arr{position:absolute;top:50%;transform:translateY(-50%);width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;font-size:18px}
@@ -351,7 +314,7 @@
 
         @media(max-width:1024px){.dg{grid-template-columns:1fr}.gi.sz-s{width:calc(50% - 3px)}}
         @media(max-width:900px){.cover-inner{grid-template-columns:1fr;text-align:center}.hero-card{width:320px}.hero-title{font-size:30px}.cover-title{font-size:32px}.page-indicator{display:none}.hero-bg-left,.hero-bg-right{display:none}}
-        @media(max-width:600px){.hero-cards{flex-direction:column;align-items:center}.hero-card{width:100%;max-width:340px}.hero-card img{height:300px}.hero-title{font-size:24px}.stat-num{font-size:32px}.cover-title{font-size:28px}.gi.sz-s,.gi.sz-m{width:100%}.nav-brand-name{display:none}.nav-links button{font-size:8px;padding:4px 5px}}
+        @media(max-width:600px){.hero-cards{flex-direction:column;align-items:center}.hero-card{width:100%;max-width:340px}.hero-card img{height:300px}.hero-title{font-size:24px}.stat-num{font-size:32px}.cover-title{font-size:28px}.gi.sz-s,.gi.sz-m{width:100%}.nav-brand-name{display:none}.nav-links button{font-size:8px;padding:4px 5px}.url-paste-row{flex-wrap:wrap}}
     </style>
 </head>
 <body>
@@ -360,215 +323,350 @@
 
 <nav class="nav"><div class="nav-brand"><div class="nav-logo">GQ</div><span class="nav-brand-name">OPS LAB</span></div><div class="nav-links"><button class="active" onclick="go(0)">Home</button><button onclick="go(1)">HAST ALU</button><button onclick="go(2)">iLDx</button><button onclick="go(3)">HAST Updates</button><button onclick="go(4)">iLDx Updates</button><button onclick="go(5)">Timeline</button></div></nav>
 
-<div class="edit-toggle" id="editToggle" onclick="toggleEdit()"><span class="edit-toggle-label">Edit</span><div class="edit-switch"></div></div>
+<div class="edit-panel">
+    <div class="edit-toggle" id="editToggle" onclick="toggleEdit()"><span class="edit-toggle-label">Edit</span><div class="edit-switch"></div></div>
+    <button class="export-btn" onclick="exportHTML()">📦 Export HTML</button>
+</div>
 
 <div class="page-indicator"><button class="page-dot active hast-dot" data-label="Home" onclick="go(0)"></button><button class="page-dot hast-dot" data-label="HAST ALU" onclick="go(1)"></button><button class="page-dot" data-label="iLDx" onclick="go(2)"></button><button class="page-dot hast-dot" data-label="HAST Updates" onclick="go(3)"></button><button class="page-dot" data-label="iLDx Updates" onclick="go(4)"></button><button class="page-dot" data-label="Timeline" onclick="go(5)"></button></div>
-
 <div class="bottom-bar"><button class="bottom-btn" id="prevBtn" onclick="prev()">▲</button><span class="bottom-counter" id="counter">1 / 6</span><button class="bottom-btn" id="nextBtn" onclick="nxt()">▼</button><span class="bottom-hint">↑↓</span></div>
 
 <div class="slide-container">
 
-    <!-- 0: HOME -->
-    <div class="slide-page active" id="s0"><div class="page-inner hero-page">
-        <div class="hero-bg-left"><img src="Image (20).jpg" alt=""></div><div class="hero-bg-right"><img src="Image (19).jpg" alt=""></div><div class="hero-center-blend"></div><div class="hero-ink"><div class="ink1"></div></div><div class="hero-dots"><div class="hdot"></div><div class="hdot"></div><div class="hdot"></div><div class="hdot"></div><div class="hdot"></div><div class="hdot"></div></div>
-        <div class="hero-content">
-            <div class="hero-badge"><span class="badge-dot"></span>GQ Lab Automation</div>
-            <h1 class="hero-title" contenteditable="false">Machine Buyoff <span class="accent">Update</span></h1>
-            <p class="hero-sub" contenteditable="false">Driving innovation with <strong>automation and AI</strong> for efficient lab operation</p>
-            <div class="hero-stats"><div><div class="stat-num gold" contenteditable="false">30%</div><div class="stat-label" contenteditable="false">Target HC Uplift (FY29)</div></div><div><div class="stat-num blue" contenteditable="false">2</div><div class="stat-label" contenteditable="false">Tools Dropped This Week</div></div></div>
-            <div class="hero-cards">
-                <div class="hero-card hast-card" onclick="go(1)"><img src="Image (20).jpg" alt="HAST"><div class="hero-card-top"><span class="card-tool-badge">Tool #1 · Dropped 4/24</span><span class="card-arrow">→</span></div><div class="hero-card-info"><div class="card-info-bg"><div class="card-tag">HAST Auto Loader Unloader</div><div class="card-name">iRS-9m</div><div class="card-model">Robotic Socket Loading System</div><div class="card-pills"><span class="card-pill">Zero Strain</span><span class="card-pill">Multi-Socket</span><span class="card-pill">High Mix</span></div></div></div></div>
-                <div class="hero-card ildx-card" onclick="go(2)"><img src="Image (19).jpg" alt="iLDx"><div class="hero-card-top"><span class="card-tool-badge">Tool #2 · Dropped 4/27</span><span class="card-arrow">→</span></div><div class="hero-card-info"><div class="card-info-bg"><div class="card-tag">Robotic Laser Debatch System</div><div class="card-name">iLDx-9m</div><div class="card-model">UV Laser Mark & Intelligent Debatch</div><div class="card-pills"><span class="card-pill">UV Laser</span><span class="card-pill">Auto Debatch</span><span class="card-pill">Traceable</span></div></div></div></div>
+<!-- 0: HOME -->
+<div class="slide-page active" id="s0"><div class="page-inner hero-page">
+    <div class="hero-bg-left"><img src="Image (20).jpg" alt=""></div><div class="hero-bg-right"><img src="Image (19).jpg" alt=""></div><div class="hero-center-blend"></div><div class="hero-ink"><div class="ink1"></div></div><div class="hero-dots"><div class="hdot"></div><div class="hdot"></div><div class="hdot"></div><div class="hdot"></div><div class="hdot"></div><div class="hdot"></div></div>
+    <div class="hero-content">
+        <div class="hero-badge"><span class="badge-dot"></span>GQ Lab Automation</div>
+        <h1 class="hero-title" contenteditable="false">Machine Buyoff <span class="accent">Update</span></h1>
+        <p class="hero-sub" contenteditable="false">Driving innovation with <strong>automation and AI</strong> for efficient lab operation</p>
+        <div class="hero-stats"><div><div class="stat-num gold" contenteditable="false">30%</div><div class="stat-label" contenteditable="false">Target HC Uplift (FY29)</div></div><div><div class="stat-num blue" contenteditable="false">2</div><div class="stat-label" contenteditable="false">Tools Dropped This Week</div></div></div>
+        <div class="hero-cards">
+            <div class="hero-card hast-card" onclick="go(1)"><img src="Image (20).jpg" alt="HAST"><div class="hero-card-top"><span class="card-tool-badge">Tool #1 · Dropped 4/24</span><span class="card-arrow">→</span></div><div class="hero-card-info"><div class="card-info-bg"><div class="card-tag">HAST Auto Loader Unloader</div><div class="card-name">iRS-9m</div><div class="card-model">Robotic Socket Loading System</div><div class="card-pills"><span class="card-pill">Zero Strain</span><span class="card-pill">Multi-Socket</span><span class="card-pill">High Mix</span></div></div></div></div>
+            <div class="hero-card ildx-card" onclick="go(2)"><img src="Image (19).jpg" alt="iLDx"><div class="hero-card-top"><span class="card-tool-badge">Tool #2 · Dropped 4/27</span><span class="card-arrow">→</span></div><div class="hero-card-info"><div class="card-info-bg"><div class="card-tag">Robotic Laser Debatch System</div><div class="card-name">iLDx-9m</div><div class="card-model">UV Laser Mark & Intelligent Debatch</div><div class="card-pills"><span class="card-pill">UV Laser</span><span class="card-pill">Auto Debatch</span><span class="card-pill">Traceable</span></div></div></div></div>
+        </div>
+    </div>
+</div></div>
+
+<!-- 1: HAST COVER -->
+<div class="slide-page" id="s1"><div class="page-inner cover-page hast-theme"><div class="cover-bg"><img src="Image (20).jpg" alt=""></div><div class="cover-grad"></div><div class="cover-inner"><div><h1 class="cover-title" contenteditable="false">HAST</h1><div class="cover-subtitle" contenteditable="false">Auto Loader Unloader</div><div class="cover-mtag">⬡ iRS-9m</div><p class="cover-tagline" contenteditable="false">Because operators don't need hand pain.<br>We automate. We care. <strong style="color:#7db8d9">We love.</strong></p><div class="cover-feats"><div class="cfeat"><div class="cfeat-icon">🔧</div><div><h4 contenteditable="false">Multi-Socket</h4><p contenteditable="false">Open Top · Clamshell · Adapter · Adapterless</p></div></div><div class="cfeat"><div class="cfeat-icon">🎯</div><div><h4 contenteditable="false">Zero Strain</h4><p contenteditable="false">No more manual pressing</p></div></div><div class="cfeat"><div class="cfeat-icon">⚡</div><div><h4 contenteditable="false">High Mix / Low Vol</h4><p contenteditable="false">Built to adapt</p></div></div></div><button class="cover-cta" onclick="go(3)">View Updates →</button></div><div class="cover-poster"><img src="Image (20).jpg" alt="HAST"></div></div></div></div>
+
+<!-- 2: iLDx COVER -->
+<div class="slide-page" id="s2"><div class="page-inner cover-page ildx-theme"><div class="cover-bg"><img src="Image (19).jpg" alt=""></div><div class="cover-grad"></div><div class="cover-inner"><div class="cover-poster"><img src="Image (19).jpg" alt="iLDx"></div><div><h1 class="cover-title" contenteditable="false">iLD<span class="g-accent">x</span></h1><div class="cover-subtitle" contenteditable="false">Robotic Laser Debatch System</div><div class="cover-mtag">◈ iLDx-9m</div><p class="cover-tagline" contenteditable="false">Quality. Controlled. <strong style="color:#d4af5a">Traceable.</strong><br>UV laser mark to intelligent debatch.</p><div class="cover-feats"><div class="cfeat"><div class="cfeat-icon">💎</div><div><h4 contenteditable="false">UV Laser Mark</h4><p contenteditable="false">Permanent · Traceable</p></div></div><div class="cfeat"><div class="cfeat-icon">📦</div><div><h4 contenteditable="false">Auto Debatch</h4><p contenteditable="false">Auto sorting · Fast</p></div></div><div class="cfeat"><div class="cfeat-icon">🤖</div><div><h4 contenteditable="false">Flexible Robot</h4><p contenteditable="false">Gripper & pick-place</p></div></div></div><button class="cover-cta" onclick="go(4)">View Updates →</button></div></div></div></div>
+
+<!-- 3: HAST UPDATES -->
+<div class="slide-page" id="s3"><div class="page-inner update-page"><div class="update-scroll">
+    <div class="utitle-bar"><div class="utitle-icon h-icon">⬡</div><div class="utitle-text"><h2 contenteditable="false">Automation Buyoff Journey</h2><span contenteditable="false">HAST Auto Loader Unloader · iRS-9m</span></div><div class="utitle-line h-line"></div></div>
+    <div class="sub-section"><div class="sub-head bh"><div class="sub-num">1</div><div class="sub-head-text"><h3 contenteditable="false">ALU Tool Move In</h3><span class="sub-date" contenteditable="false">Dropped 4/24</span></div><span class="sub-badge sb-d">✓ Completed</span></div><div class="sub-body">
+        <div class="gallery" data-gallery="hm">
+            <!-- DROP ZONE + URL PASTE -->
+            <div class="add-media-zone">
+                <div class="drop-zone" ondragover="dzOver(event)" ondragleave="dzLeave(event)" ondrop="dzDrop(event,'hm')" onclick="dzClick(this)"><div class="drop-zone-icon">📸</div><div class="drop-zone-text"><strong>Drag & drop</strong> photos or videos</div><div class="drop-zone-sub">JPG · PNG · MP4</div><input type="file" multiple accept="image/*,video/*" onchange="fileSelect(event,'hm')"></div>
+                <div class="url-paste-zone"><div class="url-paste-header"><span>🔗 Or paste a URL</span></div><div class="url-paste-row"><select id="type-hm"><option value="image">Photo URL</option><option value="video">Video URL</option><option value="sharepoint">SharePoint Video</option><option value="youtube">YouTube</option></select><input type="text" id="url-hm" placeholder="Paste URL here..."><input type="text" id="cap-hm" placeholder="Caption" style="max-width:120px"><button class="url-paste-add" onclick="addURL('hm')">Add</button></div><div class="url-paste-hint">SharePoint: use the embed/download link · YouTube: paste video URL</div></div>
             </div>
         </div>
+        <div class="dg"><div class="db agn"><h4 contenteditable="false">✅ Move In Done</h4><ul><li contenteditable="false">iRS-9m dropped on 4/24</li><li contenteditable="false">Power-on & health check passed</li><li contenteditable="false">Signal tower operational</li></ul></div><div class="db ab"><h4 contenteditable="false">Validated</h4><ul><li contenteditable="false">Cobot arm functional</li><li contenteditable="false">Safety enclosure in place</li><li contenteditable="false">Footprint aligned</li></ul></div></div>
     </div></div>
-
-    <!-- 1: HAST COVER -->
-    <div class="slide-page" id="s1"><div class="page-inner cover-page hast-theme"><div class="cover-bg"><img src="Image (20).jpg" alt=""></div><div class="cover-grad"></div><div class="cover-inner"><div><h1 class="cover-title" contenteditable="false">HAST</h1><div class="cover-subtitle" contenteditable="false">Auto Loader Unloader</div><div class="cover-mtag">⬡ iRS-9m</div><p class="cover-tagline" contenteditable="false">Because operators don't need hand pain.<br>We automate. We care. <strong style="color:#7db8d9">We love.</strong></p><div class="cover-feats"><div class="cfeat"><div class="cfeat-icon">🔧</div><div><h4 contenteditable="false">Multi-Socket</h4><p contenteditable="false">Open Top · Clamshell · Adapter · Adapterless</p></div></div><div class="cfeat"><div class="cfeat-icon">🎯</div><div><h4 contenteditable="false">Zero Strain</h4><p contenteditable="false">No more manual pressing</p></div></div><div class="cfeat"><div class="cfeat-icon">⚡</div><div><h4 contenteditable="false">High Mix / Low Vol</h4><p contenteditable="false">Built to adapt</p></div></div></div><button class="cover-cta" onclick="go(3)">View Updates →</button></div><div class="cover-poster"><img src="Image (20).jpg" alt="HAST"></div></div></div></div>
-
-    <!-- 2: iLDx COVER -->
-    <div class="slide-page" id="s2"><div class="page-inner cover-page ildx-theme"><div class="cover-bg"><img src="Image (19).jpg" alt=""></div><div class="cover-grad"></div><div class="cover-inner"><div class="cover-poster"><img src="Image (19).jpg" alt="iLDx"></div><div><h1 class="cover-title" contenteditable="false">iLD<span class="g-accent">x</span></h1><div class="cover-subtitle" contenteditable="false">Robotic Laser Debatch System</div><div class="cover-mtag">◈ iLDx-9m</div><p class="cover-tagline" contenteditable="false">Quality. Controlled. <strong style="color:#d4af5a">Traceable.</strong><br>UV laser mark to intelligent debatch.</p><div class="cover-feats"><div class="cfeat"><div class="cfeat-icon">💎</div><div><h4 contenteditable="false">UV Laser Mark</h4><p contenteditable="false">Permanent · Traceable</p></div></div><div class="cfeat"><div class="cfeat-icon">📦</div><div><h4 contenteditable="false">Auto Debatch</h4><p contenteditable="false">Auto sorting · Fast</p></div></div><div class="cfeat"><div class="cfeat-icon">🤖</div><div><h4 contenteditable="false">Flexible Robot</h4><p contenteditable="false">Gripper & pick-place</p></div></div></div><button class="cover-cta" onclick="go(4)">View Updates →</button></div></div></div></div>
-
-    <!-- 3: HAST UPDATES -->
-    <div class="slide-page" id="s3"><div class="page-inner update-page"><div class="update-scroll">
-        <div class="utitle-bar"><div class="utitle-icon h-icon">⬡</div><div class="utitle-text"><h2 contenteditable="false">Automation Buyoff Journey</h2><span contenteditable="false">HAST Auto Loader Unloader · iRS-9m</span></div><div class="utitle-line h-line"></div></div>
-        <div class="sub-section"><div class="sub-head bh"><div class="sub-num">1</div><div class="sub-head-text"><h3 contenteditable="false">ALU Tool Move In</h3><span class="sub-date" contenteditable="false">Dropped 4/24</span></div><span class="sub-badge sb-d">✓ Completed</span></div><div class="sub-body"><div class="gallery" data-gallery="hm"><div class="drop-zone" ondragover="dzOver(event)" ondragleave="dzLeave(event)" ondrop="dzDrop(event,'hm')" onclick="dzClick(this)"><div class="drop-zone-icon">📸</div><div class="drop-zone-text"><strong>Drag & drop</strong> photos or videos<br>or click to browse</div><div class="drop-zone-sub">JPG · PNG · MP4 · MOV</div><input type="file" multiple accept="image/*,video/*" onchange="fileSelect(event,'hm')"></div></div><div class="dg"><div class="db agn"><h4 contenteditable="false">✅ Move In Done</h4><ul><li contenteditable="false">iRS-9m dropped on 4/24</li><li contenteditable="false">Power-on & health check passed</li><li contenteditable="false">Signal tower operational</li></ul></div><div class="db ab"><h4 contenteditable="false">Validated</h4><ul><li contenteditable="false">Cobot arm functional</li><li contenteditable="false">Safety enclosure in place</li><li contenteditable="false">Footprint aligned</li></ul></div></div></div></div>
-        <div class="sub-section"><div class="sub-head bh"><div class="sub-num">2</div><div class="sub-head-text"><h3 contenteditable="false">Setup, FAC & Coming Up</h3><span class="sub-date" contenteditable="false">Cable Mgmt · FAC</span></div><span class="sub-badge sb-p">⟳ In Progress</span></div><div class="sub-body"><div class="gallery" data-gallery="hs"><div class="drop-zone" ondragover="dzOver(event)" ondragleave="dzLeave(event)" ondrop="dzDrop(event,'hs')" onclick="dzClick(this)"><div class="drop-zone-icon">📸</div><div class="drop-zone-text"><strong>Drag & drop</strong></div><div class="drop-zone-sub">JPG · PNG · MP4</div><input type="file" multiple accept="image/*,video/*" onchange="fileSelect(event,'hs')"></div></div><div class="dg"><div class="db agn"><h4 contenteditable="false">✅ Bought Off</h4><ul><li contenteditable="false">Loading: Boards, Adapter, Adapterless, Clamshell</li><li contenteditable="false">Auto recipe & Jig selection</li><li contenteditable="false">Auto current check vs DB</li><li contenteditable="false">High Level Machine OCAP</li></ul></div><div class="db ar"><h4 contenteditable="false">⚠ Not OK</h4><ul><li contenteditable="false">Vision failed — ESA algorithm</li><li contenteditable="false">Moved to Phase 2</li><li contenteditable="false">ESA to resolve</li></ul></div><div class="db ab"><h4 contenteditable="false">📅 Timeline</h4><ul><li contenteditable="false"><strong>Apr:</strong> Setup, cable done</li><li contenteditable="false"><strong>May:</strong> Recipe, FAC follow-up</li><li contenteditable="false"><strong>Jun:</strong> SAC, soft launch</li><li contenteditable="false"><strong>Jul:</strong> Release (phases)</li></ul></div><div class="db ab"><h4 contenteditable="false">🔧 Status</h4><ul><li contenteditable="false">Cable management — done ✓</li><li contenteditable="false">Cobot calibration — in progress</li><li contenteditable="false">Recipe teaching — next</li></ul></div></div></div></div>
-    </div></div></div>
-
-    <!-- 4: iLDx UPDATES -->
-    <div class="slide-page" id="s4"><div class="page-inner update-page"><div class="update-scroll">
-        <div class="utitle-bar"><div class="utitle-icon i-icon">◈</div><div class="utitle-text"><h2 contenteditable="false">Automation Buyoff Journey</h2><span contenteditable="false">Robotic Laser Debatch System · iLDx-9m</span></div><div class="utitle-line i-line"></div></div>
-        <div class="sub-section"><div class="sub-head gh"><div class="sub-num">1</div><div class="sub-head-text"><h3 contenteditable="false">FAC in ABB — 17th April</h3><span class="sub-date" contenteditable="false">Factory Acceptance</span></div><span class="sub-badge sb-d">✓ Completed</span></div><div class="sub-body"><div class="gallery" data-gallery="if"><div class="drop-zone" ondragover="dzOver(event)" ondragleave="dzLeave(event)" ondrop="dzDrop(event,'if')" onclick="dzClick(this)"><div class="drop-zone-icon">📸</div><div class="drop-zone-text"><strong>Drag & drop</strong></div><div class="drop-zone-sub">JPG · PNG · MP4</div><input type="file" multiple accept="image/*,video/*" onchange="fileSelect(event,'if')"></div></div><div class="dg"><div class="db ag"><h4 contenteditable="false">FAC Lots</h4><div class="fac-w"><table class="fac-t"><thead><tr><th>Pkg</th><th>DID</th><th>Qty</th><th>Laser</th><th>Debatch</th></tr></thead><tbody><tr><td contenteditable="false">11.5×13</td><td contenteditable="false">MM212</td><td contenteditable="false">40×3</td><td><span class="fp d">4/17</span></td><td><span class="fp d">4/7</span></td></tr><tr><td contenteditable="false">6×8</td><td contenteditable="false">QLIT</td><td contenteditable="false">40×3</td><td><span class="fp d">4/17</span></td><td><span class="fp r">Remote</span></td></tr><tr><td contenteditable="false">8×12.4</td><td contenteditable="false">Y62P</td><td contenteditable="false">80</td><td><span class="fp f">Fail</span></td><td><span class="fp r">Remote</span></td></tr><tr><td contenteditable="false">12×18</td><td contenteditable="false">BATR</td><td contenteditable="false">80</td><td><span class="fp d">4/17</span></td><td><span class="fp r">Remote</span></td></tr><tr><td contenteditable="false">12.4×15</td><td contenteditable="false">WBCP</td><td contenteditable="false">80</td><td><span class="fp f">Fail</span></td><td><span class="fp r">Remote</span></td></tr></tbody></table></div></div><div class="db ag"><h4 contenteditable="false">Observation</h4><div class="ck"><span class="ck-i d">✓</span><span contenteditable="false">Touch Panel</span></div><div class="ck"><span class="ck-i d">✓</span><span contenteditable="false">Tray live display</span></div><div class="ck"><span class="ck-i o">⟳</span><span contenteditable="false">GUI — UPH, MTBA</span><span class="otag">ongoing</span></div><div class="ck"><span class="ck-i d">✓</span><span contenteditable="false">Name plate & color</span></div><div class="ck"><span class="ck-i d">✓</span><span contenteditable="false">10th tray sensor</span></div><div class="ck"><span class="ck-i d">✓</span><span contenteditable="false">Auto reset / home</span></div></div></div></div></div>
-        <div class="sub-section"><div class="sub-head gh"><div class="sub-num">2</div><div class="sub-head-text"><h3 contenteditable="false">Debatch Demonstration</h3><span class="sub-date" contenteditable="false">5 Lots</span></div><span class="sub-badge sb-d">✓ Demonstrated</span></div><div class="sub-body"><div class="gallery" data-gallery="id"><div class="drop-zone" ondragover="dzOver(event)" ondragleave="dzLeave(event)" ondrop="dzDrop(event,'id')" onclick="dzClick(this)"><div class="drop-zone-icon">📸</div><div class="drop-zone-text"><strong>Drag & drop</strong></div><div class="drop-zone-sub">JPG · PNG · MP4</div><input type="file" multiple accept="image/*,video/*" onchange="fileSelect(event,'id')"></div></div><div class="dg"><div class="db ag"><h4 contenteditable="false">System Design</h4><ul><li contenteditable="false">3-Output debatch</li><li contenteditable="false">Buffer / Reject Out</li><li contenteditable="false">Lasermarked Out</li><li contenteditable="false">Debatch WIP stage</li></ul></div><div class="db ag"><h4 contenteditable="false">Process &gt; 3 Lots</h4><ul><li contenteditable="false">First 3 lots (A, B, H)</li><li contenteditable="false">Cover empty tray</li><li contenteditable="false">Remaining 2 (G, J)</li><li contenteditable="false">5-lot validated ✓</li></ul></div></div></div></div>
-        <div class="sub-section"><div class="sub-head gh"><div class="sub-num">3</div><div class="sub-head-text"><h3 contenteditable="false">iLDx-9m Drop In</h3><span class="sub-date" contenteditable="false">Dropped 4/27</span></div><span class="sub-badge sb-u">◎ Upcoming</span></div><div class="sub-body"><div class="gallery" data-gallery="ix"><div class="drop-zone" ondragover="dzOver(event)" ondragleave="dzLeave(event)" ondrop="dzDrop(event,'ix')" onclick="dzClick(this)"><div class="drop-zone-icon">📸</div><div class="drop-zone-text"><strong>Drag & drop</strong></div><div class="drop-zone-sub">JPG · PNG · MP4</div><input type="file" multiple accept="image/*,video/*" onchange="fileSelect(event,'ix')"></div></div><div class="dg"><div class="db agn"><h4 contenteditable="false">✅ Drop-In Done</h4><ul><li contenteditable="false">Forklift to MSB bay</li><li contenteditable="false">Scaffolding until mid-May</li><li contenteditable="false">Vendor workaround done</li></ul></div><div class="db agn"><h4 contenteditable="false">✅ Site Setup</h4><ul><li contenteditable="false">Power & CDA hookup</li><li contenteditable="false">T&C completed</li><li contenteditable="false">Drop-in successful! 🎉</li></ul></div><div class="db ag"><h4 contenteditable="false">📅 Coming Up</h4><ul><li contenteditable="false"><strong>May:</strong> Setup & IEC Cert</li><li contenteditable="false"><strong>Jun:</strong> Training & SAC</li><li contenteditable="false"><strong>Jul:</strong> Release 🚀</li></ul></div><div class="db ab"><h4 contenteditable="false">🏗 Facility</h4><ul><li contenteditable="false">Scaffolding mid-May</li><li contenteditable="false">Path clearance done</li><li contenteditable="false">Vendor managed</li></ul></div></div></div></div>
-    </div></div></div>
-
-    <!-- 5: TIMELINE -->
-    <div class="slide-page" id="s5"><div class="page-inner tl-page"><div class="tl-inner">
-        <div class="tl-header"><p class="ol">Milestones</p><h2 contenteditable="false">Buyoff Timeline</h2></div>
-        <div class="tl">
-            <div class="tl-i tgn"><div class="tl-d" contenteditable="false">April 17</div><div class="tl-tt" contenteditable="false">iLDx FAC at ABB</div><div class="tl-ds" contenteditable="false">5 packages demonstrated.</div></div>
-            <div class="tl-i tgn"><div class="tl-d" contenteditable="false">April 24</div><div class="tl-tt" contenteditable="false">HAST ALU Drop-In</div><div class="tl-ds" contenteditable="false">iRS-9m installed.</div></div>
-            <div class="tl-i tgn"><div class="tl-d" contenteditable="false">April 27</div><div class="tl-tt" contenteditable="false">iLDx Drop-In</div><div class="tl-ds" contenteditable="false">Power & CDA completed.</div></div>
-            <div class="tl-i tg"><div class="tl-d" contenteditable="false">Apr (ongoing)</div><div class="tl-tt" contenteditable="false">HAST Setup</div><div class="tl-ds" contenteditable="false">Calibration in progress.</div></div>
-            <div class="tl-i tb"><div class="tl-d" contenteditable="false">May</div><div class="tl-tt" contenteditable="false">Recipe & IEC Cert</div><div class="tl-ds" contenteditable="false">Both tools.</div></div>
-            <div class="tl-i tb"><div class="tl-d" contenteditable="false">June</div><div class="tl-tt" contenteditable="false">Training & SAC</div><div class="tl-ds" contenteditable="false">HAST soft launch.</div></div>
-            <div class="tl-i tgn"><div class="tl-d" contenteditable="false">July</div><div class="tl-tt" contenteditable="false">🚀 Tool Release</div><div class="tl-ds" contenteditable="false">Both tools release.</div></div>
+    <div class="sub-section"><div class="sub-head bh"><div class="sub-num">2</div><div class="sub-head-text"><h3 contenteditable="false">Setup, FAC & Coming Up</h3><span class="sub-date" contenteditable="false">Cable Mgmt · FAC</span></div><span class="sub-badge sb-p">⟳ In Progress</span></div><div class="sub-body">
+        <div class="gallery" data-gallery="hs">
+            <div class="add-media-zone">
+                <div class="drop-zone" ondragover="dzOver(event)" ondragleave="dzLeave(event)" ondrop="dzDrop(event,'hs')" onclick="dzClick(this)"><div class="drop-zone-icon">📸</div><div class="drop-zone-text"><strong>Drag & drop</strong></div><div class="drop-zone-sub">JPG · PNG · MP4</div><input type="file" multiple accept="image/*,video/*" onchange="fileSelect(event,'hs')"></div>
+                <div class="url-paste-zone"><div class="url-paste-header"><span>🔗 Or paste a URL</span></div><div class="url-paste-row"><select id="type-hs"><option value="image">Photo</option><option value="video">Video</option><option value="sharepoint">SharePoint</option><option value="youtube">YouTube</option></select><input type="text" id="url-hs" placeholder="Paste URL..."><input type="text" id="cap-hs" placeholder="Caption" style="max-width:120px"><button class="url-paste-add" onclick="addURL('hs')">Add</button></div></div>
+            </div>
         </div>
-        <div class="footer-area"><div class="brand">GQ OPS LAB AUTOMATION</div><div class="tagline">Engineered for Quality · Delivered with Precision</div><p>Automation isn't cold. It's care that never tires. ❤️</p></div>
-    </div></div></div>
+        <div class="dg"><div class="db agn"><h4 contenteditable="false">✅ Bought Off</h4><ul><li contenteditable="false">Loading: Boards, Adapter, Adapterless, Clamshell</li><li contenteditable="false">Auto recipe & Jig selection</li><li contenteditable="false">Auto current check vs DB</li><li contenteditable="false">High Level Machine OCAP</li></ul></div><div class="db ar"><h4 contenteditable="false">⚠ Not OK</h4><ul><li contenteditable="false">Vision failed — ESA algorithm</li><li contenteditable="false">Moved to Phase 2</li><li contenteditable="false">ESA to resolve</li></ul></div><div class="db ab"><h4 contenteditable="false">📅 Timeline</h4><ul><li contenteditable="false"><strong>Apr:</strong> Setup, cable done</li><li contenteditable="false"><strong>May:</strong> Recipe, FAC follow-up</li><li contenteditable="false"><strong>Jun:</strong> SAC, soft launch</li><li contenteditable="false"><strong>Jul:</strong> Release (phases)</li></ul></div><div class="db ab"><h4 contenteditable="false">🔧 Status</h4><ul><li contenteditable="false">Cable management — done ✓</li><li contenteditable="false">Cobot calibration — in progress</li><li contenteditable="false">Recipe teaching — next</li></ul></div></div>
+    </div></div>
+</div></div></div>
+
+<!-- 4: iLDx UPDATES -->
+<div class="slide-page" id="s4"><div class="page-inner update-page"><div class="update-scroll">
+    <div class="utitle-bar"><div class="utitle-icon i-icon">◈</div><div class="utitle-text"><h2 contenteditable="false">Automation Buyoff Journey</h2><span contenteditable="false">Robotic Laser Debatch System · iLDx-9m</span></div><div class="utitle-line i-line"></div></div>
+    <div class="sub-section"><div class="sub-head gh"><div class="sub-num">1</div><div class="sub-head-text"><h3 contenteditable="false">FAC in ABB — 17th April</h3><span class="sub-date" contenteditable="false">Factory Acceptance</span></div><span class="sub-badge sb-d">✓ Completed</span></div><div class="sub-body">
+        <div class="gallery" data-gallery="if">
+            <div class="add-media-zone">
+                <div class="drop-zone" ondragover="dzOver(event)" ondragleave="dzLeave(event)" ondrop="dzDrop(event,'if')" onclick="dzClick(this)"><div class="drop-zone-icon">📸</div><div class="drop-zone-text"><strong>Drag & drop</strong></div><div class="drop-zone-sub">JPG · PNG · MP4</div><input type="file" multiple accept="image/*,video/*" onchange="fileSelect(event,'if')"></div>
+                <div class="url-paste-zone"><div class="url-paste-header"><span>🔗 Paste URL</span></div><div class="url-paste-row"><select id="type-if"><option value="image">Photo</option><option value="video">Video</option><option value="sharepoint">SharePoint</option><option value="youtube">YouTube</option></select><input type="text" id="url-if" placeholder="Paste URL..."><input type="text" id="cap-if" placeholder="Caption" style="max-width:120px"><button class="url-paste-add" onclick="addURL('if')">Add</button></div></div>
+            </div>
+        </div>
+        <div class="dg"><div class="db ag"><h4 contenteditable="false">FAC Lots</h4><div class="fac-w"><table class="fac-t"><thead><tr><th>Pkg</th><th>DID</th><th>Qty</th><th>Laser</th><th>Debatch</th></tr></thead><tbody><tr><td contenteditable="false">11.5×13</td><td contenteditable="false">MM212</td><td contenteditable="false">40×3</td><td><span class="fp d">4/17</span></td><td><span class="fp d">4/7</span></td></tr><tr><td contenteditable="false">6×8</td><td contenteditable="false">QLIT</td><td contenteditable="false">40×3</td><td><span class="fp d">4/17</span></td><td><span class="fp r">Remote</span></td></tr><tr><td contenteditable="false">8×12.4</td><td contenteditable="false">Y62P</td><td contenteditable="false">80</td><td><span class="fp f">Fail</span></td><td><span class="fp r">Remote</span></td></tr><tr><td contenteditable="false">12×18</td><td contenteditable="false">BATR</td><td contenteditable="false">80</td><td><span class="fp d">4/17</span></td><td><span class="fp r">Remote</span></td></tr><tr><td contenteditable="false">12.4×15</td><td contenteditable="false">WBCP</td><td contenteditable="false">80</td><td><span class="fp f">Fail</span></td><td><span class="fp r">Remote</span></td></tr></tbody></table></div></div><div class="db ag"><h4 contenteditable="false">Observation</h4><div class="ck"><span class="ck-i d">✓</span><span contenteditable="false">Touch Panel</span></div><div class="ck"><span class="ck-i d">✓</span><span contenteditable="false">Tray live display</span></div><div class="ck"><span class="ck-i o">⟳</span><span contenteditable="false">GUI — UPH, MTBA</span><span class="otag">ongoing</span></div><div class="ck"><span class="ck-i d">✓</span><span contenteditable="false">Name plate & color</span></div><div class="ck"><span class="ck-i d">✓</span><span contenteditable="false">10th tray sensor</span></div><div class="ck"><span class="ck-i d">✓</span><span contenteditable="false">Auto reset / home</span></div></div></div>
+    </div></div>
+    <div class="sub-section"><div class="sub-head gh"><div class="sub-num">2</div><div class="sub-head-text"><h3 contenteditable="false">Debatch Demonstration</h3><span class="sub-date" contenteditable="false">5 Lots</span></div><span class="sub-badge sb-d">✓ Demonstrated</span></div><div class="sub-body">
+        <div class="gallery" data-gallery="id">
+            <div class="add-media-zone"><div class="drop-zone" ondragover="dzOver(event)" ondragleave="dzLeave(event)" ondrop="dzDrop(event,'id')" onclick="dzClick(this)"><div class="drop-zone-icon">📸</div><div class="drop-zone-text"><strong>Drag & drop</strong></div><div class="drop-zone-sub">JPG · PNG · MP4</div><input type="file" multiple accept="image/*,video/*" onchange="fileSelect(event,'id')"></div><div class="url-paste-zone"><div class="url-paste-header"><span>🔗 Paste URL</span></div><div class="url-paste-row"><select id="type-id"><option value="image">Photo</option><option value="video">Video</option><option value="sharepoint">SharePoint</option><option value="youtube">YouTube</option></select><input type="text" id="url-id" placeholder="URL..."><input type="text" id="cap-id" placeholder="Caption" style="max-width:120px"><button class="url-paste-add" onclick="addURL('id')">Add</button></div></div></div>
+        </div>
+        <div class="dg"><div class="db ag"><h4 contenteditable="false">System Design</h4><ul><li contenteditable="false">3-Output debatch</li><li contenteditable="false">Buffer / Reject Out</li><li contenteditable="false">Lasermarked Out</li><li contenteditable="false">Debatch WIP stage</li></ul></div><div class="db ag"><h4 contenteditable="false">Process &gt; 3 Lots</h4><ul><li contenteditable="false">First 3 lots (A, B, H)</li><li contenteditable="false">Cover empty tray</li><li contenteditable="false">Remaining 2 (G, J)</li><li contenteditable="false">5-lot validated ✓</li></ul></div></div>
+    </div></div>
+    <div class="sub-section"><div class="sub-head gh"><div class="sub-num">3</div><div class="sub-head-text"><h3 contenteditable="false">iLDx-9m Drop In</h3><span class="sub-date" contenteditable="false">Dropped 4/27</span></div><span class="sub-badge sb-u">◎ Upcoming</span></div><div class="sub-body">
+        <div class="gallery" data-gallery="ix">
+            <div class="add-media-zone"><div class="drop-zone" ondragover="dzOver(event)" ondragleave="dzLeave(event)" ondrop="dzDrop(event,'ix')" onclick="dzClick(this)"><div class="drop-zone-icon">📸</div><div class="drop-zone-text"><strong>Drag & drop</strong></div><div class="drop-zone-sub">JPG · PNG · MP4</div><input type="file" multiple accept="image/*,video/*" onchange="fileSelect(event,'ix')"></div><div class="url-paste-zone"><div class="url-paste-header"><span>🔗 Paste URL</span></div><div class="url-paste-row"><select id="type-ix"><option value="image">Photo</option><option value="video">Video</option><option value="sharepoint">SharePoint</option><option value="youtube">YouTube</option></select><input type="text" id="url-ix" placeholder="URL..."><input type="text" id="cap-ix" placeholder="Caption" style="max-width:120px"><button class="url-paste-add" onclick="addURL('ix')">Add</button></div></div></div>
+        </div>
+        <div class="dg"><div class="db agn"><h4 contenteditable="false">✅ Drop-In Done</h4><ul><li contenteditable="false">Forklift to MSB bay</li><li contenteditable="false">Scaffolding until mid-May</li><li contenteditable="false">Vendor workaround done</li></ul></div><div class="db agn"><h4 contenteditable="false">✅ Site Setup</h4><ul><li contenteditable="false">Power & CDA hookup</li><li contenteditable="false">T&C completed</li><li contenteditable="false">Drop-in successful! 🎉</li></ul></div><div class="db ag"><h4 contenteditable="false">📅 Coming Up</h4><ul><li contenteditable="false"><strong>May:</strong> Setup & IEC Cert</li><li contenteditable="false"><strong>Jun:</strong> Training & SAC</li><li contenteditable="false"><strong>Jul:</strong> Release 🚀</li></ul></div><div class="db ab"><h4 contenteditable="false">🏗 Facility</h4><ul><li contenteditable="false">Scaffolding mid-May</li><li contenteditable="false">Path clearance done</li><li contenteditable="false">Vendor managed</li></ul></div></div>
+    </div></div>
+</div></div></div>
+
+<!-- 5: TIMELINE -->
+<div class="slide-page" id="s5"><div class="page-inner tl-page"><div class="tl-inner">
+    <div class="tl-header"><p class="ol">Milestones</p><h2 contenteditable="false">Buyoff Timeline</h2></div>
+    <div class="tl">
+        <div class="tl-i tgn"><div class="tl-d" contenteditable="false">April 17</div><div class="tl-tt" contenteditable="false">iLDx FAC at ABB</div><div class="tl-ds" contenteditable="false">5 packages demonstrated.</div></div>
+        <div class="tl-i tgn"><div class="tl-d" contenteditable="false">April 24</div><div class="tl-tt" contenteditable="false">HAST ALU Drop-In</div><div class="tl-ds" contenteditable="false">iRS-9m installed.</div></div>
+        <div class="tl-i tgn"><div class="tl-d" contenteditable="false">April 27</div><div class="tl-tt" contenteditable="false">iLDx Drop-In</div><div class="tl-ds" contenteditable="false">Power & CDA completed.</div></div>
+        <div class="tl-i tg"><div class="tl-d" contenteditable="false">Apr (ongoing)</div><div class="tl-tt" contenteditable="false">HAST Setup</div><div class="tl-ds" contenteditable="false">Calibration in progress.</div></div>
+        <div class="tl-i tb"><div class="tl-d" contenteditable="false">May</div><div class="tl-tt" contenteditable="false">Recipe & IEC Cert</div><div class="tl-ds" contenteditable="false">Both tools.</div></div>
+        <div class="tl-i tb"><div class="tl-d" contenteditable="false">June</div><div class="tl-tt" contenteditable="false">Training & SAC</div><div class="tl-ds" contenteditable="false">HAST soft launch.</div></div>
+        <div class="tl-i tgn"><div class="tl-d" contenteditable="false">July</div><div class="tl-tt" contenteditable="false">🚀 Tool Release</div><div class="tl-ds" contenteditable="false">Both tools release.</div></div>
+    </div>
+    <div class="footer-area"><div class="brand">GQ OPS LAB AUTOMATION</div><div class="tagline">Engineered for Quality · Delivered with Precision</div><p>Automation isn't cold. It's care that never tires. ❤️</p></div>
+</div></div></div>
+
 </div>
 
 <script>
-    var cur=0,total=6,animating=false;
-    function go(idx){if(animating||idx===cur||idx<0||idx>=total)return;animating=true;var o=document.getElementById('s'+cur),n=document.getElementById('s'+idx),d=idx>cur;n.style.transition='none';n.style.transform=d?'translateY(100%)':'translateY(-100%)';n.style.opacity='0.3';n.style.visibility='visible';n.offsetHeight;var t='transform .6s cubic-bezier(.4,0,.2,1),opacity .6s cubic-bezier(.4,0,.2,1)';n.style.transition=t;o.style.transition=t;n.style.transform='translateY(0)';n.style.opacity='1';n.classList.add('active');o.style.transform=d?'translateY(-100%)':'translateY(100%)';o.style.opacity='0.3';setTimeout(function(){o.classList.remove('active');o.style.visibility='hidden';o.style.transition='none';cur=idx;updateUI();animating=false;var s=n.querySelector('.update-scroll,.tl-inner');if(s)s.scrollTop=0},620)}
-    function nxt(){if(cur<total-1)go(cur+1)}function prev(){if(cur>0)go(cur-1)}
-    function updateUI(){document.getElementById('counter').textContent=(cur+1)+' / '+total;document.getElementById('prevBtn').disabled=(cur===0);document.getElementById('nextBtn').disabled=(cur===total-1);document.querySelectorAll('.nav-links button').forEach(function(b,i){b.classList.toggle('active',i===cur)});document.querySelectorAll('.page-dot').forEach(function(d,i){d.classList.toggle('active',i===cur)})}
-    document.addEventListener('keydown',function(e){if(document.getElementById('lightbox').classList.contains('open'))return;if(e.key==='ArrowDown'||e.key==='ArrowRight'){e.preventDefault();nxt()}if(e.key==='ArrowUp'||e.key==='ArrowLeft'){e.preventDefault();prev()}});
-    var wl=null;document.addEventListener('wheel',function(e){if(document.getElementById('lightbox').classList.contains('open'))return;var s=document.getElementById('s'+cur).querySelector('.update-scroll,.tl-inner');if(s){if(e.deltaY>0&&s.scrollTop+s.clientHeight<s.scrollHeight-5)return;if(e.deltaY<0&&s.scrollTop>5)return}if(wl)return;wl=setTimeout(function(){wl=null},900);if(e.deltaY>0)nxt();else if(e.deltaY<0)prev()},{passive:true});
-    var tx=0,ty=0;document.addEventListener('touchstart',function(e){tx=e.touches[0].clientX;ty=e.touches[0].clientY},{passive:true});document.addEventListener('touchend',function(e){if(document.getElementById('lightbox').classList.contains('open'))return;var dy=e.changedTouches[0].clientY-ty;if(Math.abs(dy)>50){if(dy<0)nxt();else prev()}},{passive:true});
+var cur=0,total=6,animating=false,editMode=false;
 
-    var editMode=false;
-    function toggleEdit(){editMode=!editMode;document.body.classList.toggle('edit-mode',editMode);document.getElementById('editToggle').classList.toggle('active',editMode);document.querySelectorAll('[contenteditable]').forEach(function(el){el.setAttribute('contenteditable',editMode?'true':'false')})}
+function go(idx){if(animating||idx===cur||idx<0||idx>=total)return;animating=true;var o=document.getElementById('s'+cur),n=document.getElementById('s'+idx),d=idx>cur;n.style.transition='none';n.style.transform=d?'translateY(100%)':'translateY(-100%)';n.style.opacity='0.3';n.style.visibility='visible';n.offsetHeight;var t='transform .6s cubic-bezier(.4,0,.2,1),opacity .6s cubic-bezier(.4,0,.2,1)';n.style.transition=t;o.style.transition=t;n.style.transform='translateY(0)';n.style.opacity='1';n.classList.add('active');o.style.transform=d?'translateY(-100%)':'translateY(100%)';o.style.opacity='0.3';setTimeout(function(){o.classList.remove('active');o.style.visibility='hidden';o.style.transition='none';cur=idx;updateUI();animating=false;var s=n.querySelector('.update-scroll,.tl-inner');if(s)s.scrollTop=0},620)}
+function nxt(){if(cur<total-1)go(cur+1)}
+function prev(){if(cur>0)go(cur-1)}
+function updateUI(){document.getElementById('counter').textContent=(cur+1)+' / '+total;document.getElementById('prevBtn').disabled=(cur===0);document.getElementById('nextBtn').disabled=(cur===total-1);document.querySelectorAll('.nav-links button').forEach(function(b,i){b.classList.toggle('active',i===cur)});document.querySelectorAll('.page-dot').forEach(function(d,i){d.classList.toggle('active',i===cur)})}
 
-    function dzOver(e){e.preventDefault();e.currentTarget.classList.add('drag-over')}
-    function dzLeave(e){e.currentTarget.classList.remove('drag-over')}
-    function dzDrop(e,gid){e.preventDefault();e.currentTarget.classList.remove('drag-over');addMedia(e.dataTransfer.files,gid)}
-    function dzClick(el){el.querySelector('input[type="file"]').click()}
-    function fileSelect(e,gid){addMedia(e.target.files,gid);e.target.value=''}
+document.addEventListener('keydown',function(e){if(document.getElementById('lightbox').classList.contains('open'))return;if(e.key==='ArrowDown'||e.key==='ArrowRight'){e.preventDefault();nxt()}if(e.key==='ArrowUp'||e.key==='ArrowLeft'){e.preventDefault();prev()}});
+var wl=null;document.addEventListener('wheel',function(e){if(document.getElementById('lightbox').classList.contains('open'))return;var s=document.getElementById('s'+cur).querySelector('.update-scroll,.tl-inner');if(s){if(e.deltaY>0&&s.scrollTop+s.clientHeight<s.scrollHeight-5)return;if(e.deltaY<0&&s.scrollTop>5)return}if(wl)return;wl=setTimeout(function(){wl=null},900);if(e.deltaY>0)nxt();else if(e.deltaY<0)prev()},{passive:true});
+var touchX=0,touchY=0;document.addEventListener('touchstart',function(e){touchX=e.touches[0].clientX;touchY=e.touches[0].clientY},{passive:true});document.addEventListener('touchend',function(e){if(document.getElementById('lightbox').classList.contains('open'))return;var dy=e.changedTouches[0].clientY-touchY;if(Math.abs(dy)>50){if(dy<0)nxt();else prev()}},{passive:true});
 
-    // Format seconds to mm:ss
-    function fmtTime(s){var m=Math.floor(s/60);var sec=Math.floor(s%60);return m+':'+(sec<10?'0':'')+sec}
+function toggleEdit(){editMode=!editMode;document.body.classList.toggle('edit-mode',editMode);document.getElementById('editToggle').classList.toggle('active',editMode);document.querySelectorAll('[contenteditable]').forEach(function(el){el.setAttribute('contenteditable',editMode?'true':'false')})}
 
-    function addMedia(files,gid){
-        var gal=document.querySelector('[data-gallery="'+gid+'"]');if(!gal)return;var dz=gal.querySelector('.drop-zone');
-        for(var i=0;i<files.length;i++){
-            (function(file){
-                var isV=file.type.startsWith('video/');
-                var isI=file.type.startsWith('image/');
-                if(!isV&&!isI)return;
-                var name=file.name.replace(/\.[^/.]+$/,'');
+// ===== DRAG & DROP =====
+function dzOver(e){e.preventDefault();e.currentTarget.classList.add('drag-over')}
+function dzLeave(e){e.currentTarget.classList.remove('drag-over')}
+function dzDrop(e,gid){e.preventDefault();e.currentTarget.classList.remove('drag-over');addFiles(e.dataTransfer.files,gid)}
+function dzClick(el){el.querySelector('input[type="file"]').click()}
+function fileSelect(e,gid){addFiles(e.target.files,gid);e.target.value=''}
+function fmtTime(s){var m=Math.floor(s/60);var sec=Math.floor(s%60);return m+':'+(sec<10?'0':'')+sec}
 
-                // Use Object URL for videos (much better than dataURL)
-                var url=URL.createObjectURL(file);
-                var count=gal.querySelectorAll('.gi').length;
-                var item=document.createElement('div');
-                item.className='gi sz-m';
-                item.setAttribute('onclick',"openG('"+gid+"',"+count+")");
-                // Store blob url for lightbox
-                item.setAttribute('data-src',url);
-                item.setAttribute('data-type',isV?'video':'image');
-                item.setAttribute('data-cap',name);
+function addFiles(files,gid){
+    for(var i=0;i<files.length;i++){
+        (function(file){
+            var isV=file.type.startsWith('video/');
+            var isI=file.type.startsWith('image/');
+            if(!isV&&!isI)return;
+            var url=URL.createObjectURL(file);
+            var name=file.name.replace(/\.[^/.]+$/,'');
+            addToGallery(gid,url,isV?'video':'image',name);
+        })(files[i]);
+    }
+}
 
-                var toolbar='<div class="gi-toolbar">'+
-                    '<button class="gi-tool-btn gi-size-btn" onclick="setSize(event,this,\'sz-s\')">S</button>'+
-                    '<button class="gi-tool-btn gi-size-btn active" onclick="setSize(event,this,\'sz-m\')">M</button>'+
-                    '<button class="gi-tool-btn gi-size-btn" onclick="setSize(event,this,\'sz-l\')">L</button>'+
-                    '<button class="gi-tool-btn gi-size-btn" onclick="setSize(event,this,\'sz-xl\')">XL</button>'+
-                    '<button class="gi-tool-btn gi-cap-toggle" onclick="toggleCap(event,this)">CAP</button>'+
-                    '<button class="gi-tool-btn gi-del-btn" onclick="deletePhoto(event,this)">✕</button>'+
-                    '</div>';
+// ===== URL PASTE =====
+function addURL(gid){
+    var type=document.getElementById('type-'+gid).value;
+    var url=document.getElementById('url-'+gid).value.trim();
+    var cap=document.getElementById('cap-'+gid).value.trim()||'Media';
+    if(!url){alert('Please paste a URL');return}
 
-                if(isV){
-                    item.innerHTML=toolbar+
-                        '<div class="gi-video-wrap">'+
-                            '<video src="'+url+'" muted loop playsinline preload="metadata"></video>'+
-                            '<div class="gi-play-overlay"><div class="gi-play-btn"></div></div>'+
-                        '</div>'+
-                        '<div class="gi-video-badge">VIDEO</div>'+
-                        '<div class="gi-duration"></div>'+
-                        '<div class="gi-cap"><span>'+name+'</span></div>'+
-                        '<div class="gi-cap-edit"><input type="text" placeholder="Caption..." value="'+name+'" onchange="updateCap(this)"></div>';
+    if(type==='youtube'){
+        var vid=extractYouTubeID(url);
+        if(vid){addToGallery(gid,'https://www.youtube.com/embed/'+vid,'youtube',cap)}
+        else{alert('Invalid YouTube URL')}
+    } else if(type==='sharepoint'){
+        // SharePoint embed — use iframe
+        var embedUrl=convertSharePointURL(url);
+        addToGallery(gid,embedUrl,'embed',cap);
+    } else if(type==='video'){
+        addToGallery(gid,url,'video',cap);
+    } else {
+        addToGallery(gid,url,'image',cap);
+    }
 
-                    // Get video duration once loaded
-                    var vid=item.querySelector('video');
-                    vid.addEventListener('loadedmetadata',function(){
-                        var dur=item.querySelector('.gi-duration');
-                        if(dur)dur.textContent=fmtTime(this.duration);
-                    });
+    document.getElementById('url-'+gid).value='';
+    document.getElementById('cap-'+gid).value='';
+}
 
-                    // Hover preview — auto play from start
-                    item.addEventListener('mouseenter',function(){
-                        if(editMode)return;
-                        var v=this.querySelector('video');
-                        if(v){v.currentTime=0;v.play();this.classList.add('previewing')}
-                    });
-                    item.addEventListener('mouseleave',function(){
-                        var v=this.querySelector('video');
-                        if(v){v.pause();v.currentTime=0;this.classList.remove('previewing')}
-                    });
-                }else{
-                    // Image — use blob URL too for consistency
-                    item.innerHTML=toolbar+
-                        '<img src="'+url+'" alt="'+name+'">'+
-                        '<div class="gi-cap"><span>'+name+'</span></div>'+
-                        '<div class="gi-cap-edit"><input type="text" placeholder="Caption..." value="'+name+'" onchange="updateCap(this)"></div>';
-                }
-                gal.insertBefore(item,dz);
-            })(files[i]);
+function extractYouTubeID(url){
+    var match=url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([^&?#]+)/);
+    return match?match[1]:null;
+}
+
+function convertSharePointURL(url){
+    // If it's already an embed URL, use as-is
+    if(url.indexOf('embed')>-1)return url;
+    // Try to convert sharing link to embed
+    // SharePoint sharing links: .../:v:/g/personal/... or .../:v:/s/...
+    // Convert to embed format
+    if(url.indexOf('sharepoint.com')>-1){
+        // For direct video file links, wrap in video tag instead
+        if(url.match(/\.(mp4|mov|webm|avi)(\?|$)/i)){
+            return url; // Will be handled as direct video
         }
+        // For sharing links, try embed
+        return url.replace(':v:',':v:').replace('guestaccess.aspx','embed');
     }
+    return url;
+}
 
-    function setSize(e,btn,sz){e.stopPropagation();var gi=btn.closest('.gi');gi.classList.remove('sz-s','sz-m','sz-l','sz-xl');gi.classList.add(sz);gi.querySelectorAll('.gi-size-btn').forEach(function(b){b.classList.remove('active')});btn.classList.add('active')}
-    function toggleCap(e,btn){e.stopPropagation();var gi=btn.closest('.gi');var cap=gi.querySelector('.gi-cap');if(cap){cap.classList.toggle('visible');btn.classList.toggle('cap-on')}}
-    function deletePhoto(e,btn){e.stopPropagation();var item=btn.closest('.gi');var gal=item.parentElement;
-        // Revoke blob URL to free memory
-        var src=item.getAttribute('data-src');if(src&&src.startsWith('blob:'))URL.revokeObjectURL(src);
-        item.remove();
-        var items=gal.querySelectorAll('.gi');var gid=gal.getAttribute('data-gallery');
-        items.forEach(function(gi,idx){gi.setAttribute('onclick',"openG('"+gid+"',"+idx+")")});
-    }
-    function updateCap(input){var gi=input.closest('.gi');var cs=gi.querySelector('.gi-cap span');if(cs)cs.textContent=input.value;gi.setAttribute('data-cap',input.value)}
+// ===== UNIVERSAL ADD TO GALLERY =====
+function addToGallery(gid,url,type,caption){
+    var gal=document.querySelector('[data-gallery="'+gid+'"]');
+    if(!gal)return;
+    var addZone=gal.querySelector('.add-media-zone');
+    var count=gal.querySelectorAll('.gi').length;
 
-    // LIGHTBOX — uses data attributes
-    var lg=[],li=0;
-    function getGD(id){
-        var c=document.querySelector('[data-gallery="'+id+'"]');if(!c)return[];var r=[];
-        c.querySelectorAll('.gi').forEach(function(item){
-            var src=item.getAttribute('data-src');
-            var type=item.getAttribute('data-type')||'image';
-            var cap=item.getAttribute('data-cap')||'';
-            if(src)r.push({src:src,cap:cap,type:type});
+    var item=document.createElement('div');
+    item.className='gi sz-m';
+    item.setAttribute('data-src',url);
+    item.setAttribute('data-type',type);
+    item.setAttribute('data-cap',caption);
+    item.setAttribute('onclick',"openG('"+gid+"',"+count+")");
+
+    var toolbar='<div class="gi-toolbar">'+
+        '<button class="gi-tool-btn gi-size-btn" onclick="setSize(event,this,\'sz-s\')">S</button>'+
+        '<button class="gi-tool-btn gi-size-btn active" onclick="setSize(event,this,\'sz-m\')">M</button>'+
+        '<button class="gi-tool-btn gi-size-btn" onclick="setSize(event,this,\'sz-l\')">L</button>'+
+        '<button class="gi-tool-btn gi-size-btn" onclick="setSize(event,this,\'sz-xl\')">XL</button>'+
+        '<button class="gi-tool-btn gi-cap-toggle" onclick="toggleCap(event,this)">CAP</button>'+
+        '<button class="gi-tool-btn gi-del-btn" onclick="deleteItem(event,this)">✕</button></div>';
+
+    if(type==='youtube'){
+        item.innerHTML=toolbar+
+            '<iframe src="'+url+'" allowfullscreen></iframe>'+
+            '<div class="gi-embed-badge">YOUTUBE</div>'+
+            '<div class="gi-cap"><span>'+caption+'</span></div>'+
+            '<div class="gi-cap-edit"><input type="text" value="'+caption+'" onchange="updateCap(this)"></div>';
+    } else if(type==='embed'){
+        item.innerHTML=toolbar+
+            '<iframe src="'+url+'" allowfullscreen></iframe>'+
+            '<div class="gi-embed-badge">SHAREPOINT</div>'+
+            '<div class="gi-cap"><span>'+caption+'</span></div>'+
+            '<div class="gi-cap-edit"><input type="text" value="'+caption+'" onchange="updateCap(this)"></div>';
+    } else if(type==='video'){
+        item.innerHTML=toolbar+
+            '<div class="gi-video-wrap"><video src="'+url+'" muted loop playsinline preload="metadata"></video>'+
+            '<div class="gi-play-overlay"><div class="gi-play-btn"></div></div></div>'+
+            '<div class="gi-video-badge">VIDEO</div><div class="gi-duration"></div>'+
+            '<div class="gi-cap"><span>'+caption+'</span></div>'+
+            '<div class="gi-cap-edit"><input type="text" value="'+caption+'" onchange="updateCap(this)"></div>';
+
+        var vid=item.querySelector('video');
+        vid.addEventListener('loadedmetadata',function(){
+            var dur=item.querySelector('.gi-duration');
+            if(dur)dur.textContent=fmtTime(this.duration);
         });
-        return r;
-    }
-
-    function openG(id,idx){if(editMode)return;lg=getGD(id);li=idx;if(!lg.length)return;showLb();document.getElementById('lightbox').classList.add('open');buildTh()}
-    function closeLb(){document.getElementById('lightbox').classList.remove('open');var v=document.querySelector('#lbMediaWrap video');if(v)v.pause()}
-    function navLb(d){var v=document.querySelector('#lbMediaWrap video');if(v)v.pause();li=(li+d+lg.length)%lg.length;showLb();updTh()}
-
-    function showLb(){
-        if(!lg.length)return;
-        var w=document.getElementById('lbMediaWrap');var d=lg[li];
-        if(d.type==='video'){
-            w.innerHTML='<video class="lb-media" src="'+d.src+'" controls autoplay playsinline></video>';
-        }else{
-            w.innerHTML='<img class="lb-media" src="'+d.src+'" alt="">';
-        }
-        document.getElementById('lbCap').textContent=d.cap;
-        document.getElementById('lbCnt').textContent=(li+1)+' / '+lg.length;
-    }
-
-    function buildTh(){
-        var c=document.getElementById('lbThs');c.innerHTML='';
-        lg.forEach(function(item,i){
-            var d=document.createElement('div');d.className='lb-th'+(i===li?' active':'');
-            if(item.type==='video')d.innerHTML='<video src="'+item.src+'" muted preload="metadata"></video>';
-            else d.innerHTML='<img src="'+item.src+'" alt="">';
-            d.onclick=function(){var v=document.querySelector('#lbMediaWrap video');if(v)v.pause();li=i;showLb();updTh()};
-            c.appendChild(d);
+        item.addEventListener('mouseenter',function(){
+            if(editMode)return;
+            var v=this.querySelector('video');
+            if(v){v.currentTime=0;v.play();this.classList.add('previewing')}
         });
+        item.addEventListener('mouseleave',function(){
+            var v=this.querySelector('video');
+            if(v){v.pause();v.currentTime=0;this.classList.remove('previewing')}
+        });
+    } else {
+        item.innerHTML=toolbar+
+            '<img src="'+url+'" alt="'+caption+'" onerror="this.parentElement.style.background=\'#e74c3c22\';this.alt=\'Failed to load\'">'+
+            '<div class="gi-cap"><span>'+caption+'</span></div>'+
+            '<div class="gi-cap-edit"><input type="text" value="'+caption+'" onchange="updateCap(this)"></div>';
     }
 
-    function updTh(){document.querySelectorAll('.lb-th').forEach(function(t,i){t.classList.toggle('active',i===li)})}
+    gal.insertBefore(item,addZone);
+    reindexGallery(gid);
+}
 
-    document.getElementById('lbClose').addEventListener('click',closeLb);
-    document.getElementById('lbPrev').addEventListener('click',function(){navLb(-1)});
-    document.getElementById('lbNext').addEventListener('click',function(){navLb(1)});
-    document.getElementById('lightbox').addEventListener('click',function(e){if(e.target===this)closeLb()});
-    document.addEventListener('keydown',function(e){if(!document.getElementById('lightbox').classList.contains('open'))return;if(e.key==='Escape')closeLb();if(e.key==='ArrowLeft'){e.preventDefault();navLb(-1)}if(e.key==='ArrowRight'){e.preventDefault();navLb(1)}});
-    updateUI();
+function reindexGallery(gid){
+    var gal=document.querySelector('[data-gallery="'+gid+'"]');
+    if(!gal)return;
+    gal.querySelectorAll('.gi').forEach(function(gi,idx){
+        gi.setAttribute('onclick',"openG('"+gid+"',"+idx+")");
+    });
+}
+
+function setSize(e,btn,sz){e.stopPropagation();var gi=btn.closest('.gi');gi.classList.remove('sz-s','sz-m','sz-l','sz-xl');gi.classList.add(sz);gi.querySelectorAll('.gi-size-btn').forEach(function(b){b.classList.remove('active')});btn.classList.add('active')}
+function toggleCap(e,btn){e.stopPropagation();var gi=btn.closest('.gi');var cap=gi.querySelector('.gi-cap');if(cap){cap.classList.toggle('visible');btn.classList.toggle('cap-on')}}
+function deleteItem(e,btn){e.stopPropagation();var item=btn.closest('.gi');var gal=item.parentElement;var gid=gal.getAttribute('data-gallery');var src=item.getAttribute('data-src');if(src&&src.startsWith('blob:'))URL.revokeObjectURL(src);item.remove();reindexGallery(gid)}
+function updateCap(input){var gi=input.closest('.gi');var cs=gi.querySelector('.gi-cap span');if(cs)cs.textContent=input.value;gi.setAttribute('data-cap',input.value)}
+
+// ===== EXPORT HTML =====
+function exportHTML(){
+    // Turn off edit mode for clean export
+    if(editMode)toggleEdit();
+
+    // Clone the entire document
+    var clone=document.documentElement.cloneNode(true);
+
+    // Remove edit-only elements from clone
+    clone.querySelectorAll('.add-media-zone').forEach(function(el){el.remove()});
+    clone.querySelectorAll('.gi-toolbar').forEach(function(el){el.remove()});
+    clone.querySelectorAll('.gi-cap-edit').forEach(function(el){el.remove()});
+    clone.querySelectorAll('.edit-panel').forEach(function(el){el.remove()});
+
+    // Remove contenteditable attributes
+    clone.querySelectorAll('[contenteditable]').forEach(function(el){el.removeAttribute('contenteditable')});
+
+    // Remove edit-mode class
+    clone.querySelector('body').classList.remove('edit-mode');
+
+    var html='<!DOCTYPE html>\n<html lang="en">\n'+clone.innerHTML+'\n</html>';
+
+    // Download
+    var blob=new Blob([html],{type:'text/html'});
+    var a=document.createElement('a');
+    a.href=URL.createObjectURL(blob);
+    a.download='index.html';
+    a.click();
+    URL.revokeObjectURL(a.href);
+
+    alert('✅ HTML exported! Upload this file to GitHub to make all media permanent.');
+}
+
+// ===== LIGHTBOX =====
+var lg=[],li=0;
+function getGD(id){
+    var c=document.querySelector('[data-gallery="'+id+'"]');if(!c)return[];var r=[];
+    c.querySelectorAll('.gi').forEach(function(item){
+        var src=item.getAttribute('data-src');
+        var type=item.getAttribute('data-type')||'image';
+        var cap=item.getAttribute('data-cap')||'';
+        if(src)r.push({src:src,cap:cap,type:type});
+    });
+    return r;
+}
+
+function openG(id,idx){if(editMode)return;lg=getGD(id);li=idx;if(!lg.length)return;showLb();document.getElementById('lightbox').classList.add('open');buildTh()}
+function closeLb(){document.getElementById('lightbox').classList.remove('open');var v=document.querySelector('#lbMediaWrap video');if(v)v.pause()}
+function navLb(d){var v=document.querySelector('#lbMediaWrap video');if(v)v.pause();li=(li+d+lg.length)%lg.length;showLb();updTh()}
+
+function showLb(){
+    if(!lg.length)return;
+    var w=document.getElementById('lbMediaWrap');var d=lg[li];
+    if(d.type==='video'){
+        w.innerHTML='<video class="lb-media" src="'+d.src+'" controls autoplay playsinline></video>';
+    } else if(d.type==='youtube'||d.type==='embed'){
+        w.innerHTML='<iframe class="lb-embed" src="'+d.src+'" allowfullscreen></iframe>';
+    } else {
+        w.innerHTML='<img class="lb-media" src="'+d.src+'" alt="">';
+    }
+    document.getElementById('lbCap').textContent=d.cap;
+    document.getElementById('lbCnt').textContent=(li+1)+' / '+lg.length;
+}
+
+function buildTh(){
+    var c=document.getElementById('lbThs');c.innerHTML='';
+    lg.forEach(function(item,i){
+        var d=document.createElement('div');d.className='lb-th'+(i===li?' active':'');
+        if(item.type==='video')d.innerHTML='<video src="'+item.src+'" muted preload="metadata"></video>';
+        else if(item.type==='youtube')d.innerHTML='<div style="width:100%;height:100%;background:#e74c3c;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;font-weight:800">YT</div>';
+        else if(item.type==='embed')d.innerHTML='<div style="width:100%;height:100%;background:#3498db;display:flex;align-items:center;justify-content:center;color:#fff;font-size:8px;font-weight:800">SP</div>';
+        else d.innerHTML='<img src="'+item.src+'" alt="">';
+        d.onclick=function(){var v=document.querySelector('#lbMediaWrap video');if(v)v.pause();li=i;showLb();updTh()};
+        c.appendChild(d);
+    });
+}
+function updTh(){document.querySelectorAll('.lb-th').forEach(function(t,i){t.classList.toggle('active',i===li)})}
+
+document.getElementById('lbClose').addEventListener('click',closeLb);
+document.getElementById('lbPrev').addEventListener('click',function(){navLb(-1)});
+document.getElementById('lbNext').addEventListener('click',function(){navLb(1)});
+document.getElementById('lightbox').addEventListener('click',function(e){if(e.target===this)closeLb()});
+document.addEventListener('keydown',function(e){if(!document.getElementById('lightbox').classList.contains('open'))return;if(e.key==='Escape')closeLb();if(e.key==='ArrowLeft'){e.preventDefault();navLb(-1)}if(e.key==='ArrowRight'){e.preventDefault();navLb(1)}});
+updateUI();
 </script>
 </body>
 </html>
